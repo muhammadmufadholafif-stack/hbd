@@ -1714,12 +1714,15 @@ html, body {
     width: 100%;
   }
 
-  .finale-actions button {
+  .finale-actions button,
+  .finale-actions a {
     width: 100%;
   }
 }
 
-.message-container {
+.message-container,
+.gallery-container,
+.finale-container {
   justify-content: flex-start;
   padding-top: 80px;
 }
