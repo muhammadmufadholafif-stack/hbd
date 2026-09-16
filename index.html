@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Happy 18th Birthday, Ana Ayuningtyas! 🏁</title>
+  <meta name="description" content="Spesial ucapan ulang tahun ke-18 untuk Ana Ayuningtyas bertema film Cars (Pixar) Radiator Springs." />
+  <meta name="theme-color" content="#CC0000" />
+  <meta property="og:title" content="Happy 18th Birthday, Ana Ayuningtyas! 🏁" />
+  <meta property="og:description" content="Spesial ucapan ulang tahun ke-18 dari sahabat terbaikmu!" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/images/radiator-bg.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Outfit:wght@400;600;800;900&family=Racing+Sans+One&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+  <audio id="audio-engine" src="assets/audio/engine-start.mp3" preload="auto"></audio>
+  <audio id="audio-countdown" src="assets/audio/hitung-mundur.mp3" preload="auto"></audio>
+  <audio id="audio-bgm" src="assets/audio/backsound.mp3" preload="auto" loop></audio>
+  <audio id="audio-drive" src="assets/audio/racing.mp3" preload="auto"></audio>
+  <nav class="scene-progress-nav" id="sceneProgressNav" aria-label="Progress Scene">
+    <div class="progress-segment" data-step="0"><div class="progress-fill"></div></div>
+    <div class="progress-segment" data-step="1"><div class="progress-fill"></div></div>
+    <div class="progress-segment" data-step="2"><div class="progress-fill"></div></div>
+    <div class="progress-segment" data-step="3"><div class="progress-fill"></div></div>
+    <div class="progress-segment" data-step="4"><div class="progress-fill"></div></div>
+  </nav>
+  <div class="audio-control-wrapper" id="audioControlWrapper">
+    <button id="btn-audio-toggle" class="audio-btn" aria-label="Toggle Musik" title="Putar / Heningkan Musik">
+      <span class="audio-icon" id="audio-icon">🔊</span>
+      <span class="audio-pulse"></span>
+    </button>
+  </div>
+  <div id="toast" class="toast" role="alert" aria-live="polite">
+    <span class="toast-icon">📋</span>
+    <span class="toast-text" id="toast-text">Link berhasil disalin!</span>
+  </div>
+  <main class="app-container" id="appContainer">
+    <!-- SCENE 1: INTRO -->
+    <section id="scene-intro" class="scene scene-intro active" data-scene="0">
+      <div class="intro-asphalt-overlay"></div>
+      <div class="spotlight spotlight-left"></div>
+      <div class="spotlight spotlight-right"></div>
+      <div class="start-traffic-lights" id="startTrafficLights">
+        <div class="traffic-light-bulb light-1"></div>
+        <div class="traffic-light-bulb light-2"></div>
+        <div class="traffic-light-bulb light-3"></div>
+      </div>
+      <div class="scene-scroll-content intro-content">
+        <div class="intro-banner-wrap">
+          <div class="racing-checkered-strip top"></div>
+          <div class="intro-banner">
+            <span class="banner-badge">🚨 GET READY TO RACE 🚨</span>
+            <h1 class="banner-title">KA-CHOW! ⚡</h1>
+            <p class="banner-subtitle">Ada yang lagi ulang tahun nih... 🏁</p>
+          </div>
+          <div class="racing-checkered-strip bottom"></div>
+        </div>
+        <div class="intro-actions" id="introActionsWrap">
+          <button id="btn-start-engine" class="btn-race-primary pulse-glow">
+            <span class="btn-icon">🏁</span> NYALAKAN MESIN &amp; GAS! <span class="btn-spark">⚡</span>
+          </button>
+          <p class="intro-hint">🔊 Aktifkan suara untuk pengalaman maksimal</p>
+        </div>
+      </div>
+      <div class="intro-race-track" id="introRaceTrack">
+        <div class="intro-road-lines" id="introRoadLines">
+          <div class="road-dash"></div>
+          <div class="road-dash"></div>
+          <div class="road-dash"></div>
+          <div class="road-dash"></div>
+          <div class="road-dash"></div>
+          <div class="road-dash"></div>
+        </div>
+        <div class="mcqueen-race-wrap idle" id="mcqueenIntroRig">
+          <div class="mcqueen-engine-smoke" id="mcqueenSmoke">
+            <span></span><span></span><span></span>
+          </div>
+          <img src="assets/images/mcqueen.png" alt="Lightning McQueen" class="mcqueen-race-img" id="mcqueenIntroImg" />
+        </div>
+      </div>
+    </section>
+    <!-- SCENE 2: MAIN -->
+    <section id="scene-main" class="scene scene-main" data-scene="1">
+      <div class="scenic-background" style="background-image: url('assets/images/radiator-bg.jpg');"><div class="scenic-gradient-overlay"></div></div>
+      <div class="route66-badge-float"><img src="assets/images/route66.svg" alt="Route 66" class="route66-img" /></div>
+      <div class="scene-scroll-content main-content-wrap">
+        <div class="license-plate-container"><div class="license-plate"><div class="plate-state">RADIATOR SPRINGS</div><div class="plate-number">ANA • 18</div><div class="plate-slogan">PISTON CUP CHAMPION</div></div></div>
+        <div class="birthday-hero-text">
+          <div class="trophy-badge">🏆 OFFICIAL CELEBRATION 🏆</div>
+          <h2 class="main-title"><span class="title-sub">HAPPY 18th BIRTHDAY</span><span class="title-name">ANA AYUNINGTYAS!</span><span class="title-emoji">🎉🎂✨</span></h2>
+          <p class="main-subtitle"><span class="flag-icon">🏁</span> "Selamat memasuki lintasan baru kehidupan!" <span class="flag-icon">🏁</span></p>
+        </div>
+        <div class="mcqueen-stage" id="mcqueenStage">
+          <div class="smoke-cloud smoke-left"></div><div class="smoke-cloud smoke-right"></div>
+          <div class="mcqueen-car-wrap" id="mcqueenCarWrap" title="Klik McQueen untuk gas!">
+            <img src="assets/images/mcqueen.png" alt="Lightning McQueen #95" class="mcqueen-img" id="mcqueenImg" />
+            <div class="mcqueen-speed-lines"><span class="speed-line line-1"></span><span class="speed-line line-2"></span><span class="speed-line line-3"></span></div>
+          </div>
+        </div>
+        <div class="scene-cta-buttons">
+          <button id="btn-to-message" class="btn-race-primary btn-bounce"><span class="btn-icon">💌</span> Buka Pesan Spesial <span class="btn-arrow">›</span></button>
+          <button id="btn-fire-confetti" class="btn-race-secondary"><span class="btn-icon">🎊</span> Ledakkan Konfeti!</button>
+        </div>
+      </div>
+      <div class="track-bottom"><div class="track-stripes"></div></div>
+    </section>
+    <!-- SCENE 3: MESSAGE -->
+    <section id="scene-message" class="scene scene-message" data-scene="2">
+      <div class="message-backdrop"></div>
+      <div class="scene-scroll-content message-container">
+        <div class="section-badge"><span class="badge-icon">⛽</span> PIT STOP LETTER • SPESIAL UNTUK ANA</div>
+        <div class="letter-card-wrapper"><div class="letter-card-border">
+          <div class="racing-checkered-strip-vertical left"></div><div class="racing-checkered-strip-vertical right"></div>
+          <article class="letter-card">
+            <div class="card-stamp"><span class="stamp-route">ROUTE</span><span class="stamp-num">66</span><span class="stamp-city">RS</span></div>
+            <div class="card-header"><div class="card-sender-badge"><span class="sparkle">✨</span> DEAR ANA AYUNINGTYAS</div><div class="card-date-badge">18th Milestone Edition</div></div>
+            <div class="card-body">
+              <p class="letter-salutation">Ana,</p>
+              <p class="letter-para">Jujur, nggak gampang nemuin orang kayak kamu di dunia ini.</p>
+              <p class="letter-para">Yang selalu ceria padahal mungkin kamu juga lagi capek. Yang selalu dengerin ceritaku sampai habis. Yang bicaranya pelan tapi entah kenapa selalu bikin tenang, meski kadang kurang fokus hhe.</p>
+              <p class="letter-para">Kamu itu tipe orang yang bikin orang di sekitarnya ngerasa aman dan aku salah satunya.</p>
+              <p class="letter-para">Makasih udah jadi temen yang nggak pernah bikin aku ngerasa sendirian. Makasih buat setiap 'halo', setiap dengerin, setiap semangat yang kamu kasih waktu aku lagi di titik paling berat sekalipun. Kamu nggak pernah tau betapa besar artinya itu buat aku.</p>
+              <p class="letter-para">Dan sekarang, di hari spesial ini, aku mau bilang kalau kamu lelah, kalau kamu butuh yang dengerin, aku di sini. Selalu!! Karena kamu udah terlalu banyak jadi sandaran orang lain, dan kamu juga berhak punya tempat buat bersandar. Jangan pernah merasa kamu itu banyak kurangnya, percayalah semua baik-baik saja kamu udah memberikan impact kepada banyak orang dan aku adalah salah satunya. 💛</p>
+              <p class="letter-para">Di umur 18 ini, semoga semua kebaikan yang udah kamu kasih ke orang lain, balik ke kamu berlipat-lipat. Karena kamu layak dapet yang terbaik, karna kamu adalah salah satu orang yang paling paling terbaik yang pernah kutemui, Semangat selalu yaa manis.🔥</p>
+              <div class="letter-signoff"><span class="kachow-signature">Ka-chow! 🏁</span><div class="signoff-sub">Dari sahabatmu • Afif</div></div>
+            </div>
+          </article>
+        </div></div>
+        <div class="nav-button-group">
+          <button class="btn-race-secondary btn-nav-prev" data-target="1"><span>‹</span> Kembali</button>
+          <button id="btn-to-gallery" class="btn-race-primary"><span class="btn-icon">📸</span> Lihat Galeri Kenangan <span class="btn-arrow">›</span></button>
+        </div>
+      </div>
+    </section>
+    <!-- SCENE 4: GALLERY -->
+    <section id="scene-gallery" class="scene scene-gallery" data-scene="3">
+      <div class="gallery-backdrop"></div>
+      <div class="scene-scroll-content gallery-container">
+        <div class="gallery-header">
+          <div class="section-badge"><span class="badge-icon">🏁</span> PIT CREW MEMORIES</div>
+          <h2 class="gallery-title">Our Pit Stop Moments 📸</h2>
+          <p class="gallery-subtitle">Momen berharga dan tawa di setiap putaran lintasan kehidupan!</p>
+        </div>
+        <div class="carousel-component" id="carouselComponent">
+          <div class="carousel-viewport" id="carouselViewport">
+            <div class="carousel-track" id="carouselTrack">
+              <div class="carousel-slide active" data-index="0"><div class="photo-card polaroid-style"><div class="card-pin">📍</div><div class="photo-frame" onclick="openLightbox(0)"><img src="assets/photos/foto1.jpg" alt="Sunset Squad" class="slide-photo" /><div class="photo-zoom-hint">🔍 Klik untuk perbesar</div></div><div class="photo-caption"><span class="caption-tag">#PitStop1</span><p class="caption-text">Momen bareng Junior yang gak akan dilupain! 🌅✨</p></div></div></div>
+              <div class="carousel-slide" data-index="1"><div class="photo-card polaroid-style"><div class="card-pin">📍</div><div class="photo-frame" onclick="openLightbox(1)"><img src="assets/photos/foto2.jpg" alt="Cafe Hangout" class="slide-photo" /><div class="photo-zoom-hint">🔍 Klik untuk perbesar</div></div><div class="photo-caption"><span class="caption-tag">#PitStop2</span><p class="caption-text">Nongkrong asik sambil NGOSIS!!, vibes-nya serasa di Flo's V8 Cafe! ☕💻</p></div></div></div>
+              <div class="carousel-slide" data-index="2"><div class="photo-card polaroid-style"><div class="card-pin">📍</div><div class="photo-frame" onclick="openLightbox(2)"><img src="assets/photos/foto3.jpg" alt="Mirror Selfie" class="slide-photo" /><div class="photo-zoom-hint">🔍 Klik untuk perbesar</div></div><div class="photo-caption"><span class="caption-tag">#PitStop3</span><p class="caption-text">Mirror selfie bareng anggota OSIS yang real! Kece maksimal 😎📸</p></div></div></div>
+              <div class="carousel-slide" data-index="3"><div class="photo-card polaroid-style"><div class="card-pin">📍</div><div class="photo-frame" onclick="openLightbox(3)"><img src="assets/photos/foto4.jpg" alt="Big Squad" class="slide-photo" /><div class="photo-zoom-hint">🔍 Klik untuk perbesar</div></div><div class="photo-caption"><span class="caption-tag">#PitStop4</span><p class="caption-text">Pasukan lengkap kumpul! Last FPM and Harlah 🎪🤩</p></div></div></div>
+              <div class="carousel-slide" data-index="4"><div class="photo-card polaroid-style"><div class="card-pin">📍</div><div class="photo-frame" onclick="openLightbox(4)"><img src="assets/photos/foto5.jpg" alt="Webcam Selfie" class="slide-photo" /><div class="photo-zoom-hint">🔍 Klik untuk perbesar</div></div><div class="photo-caption"><span class="caption-tag">#PitStop5</span><p class="caption-text">Selfie imut sang bintang utama! Selamat ulang tahun yaa manis 💛🎉</p></div></div></div>
+              <div class="carousel-slide" data-index="5"><div class="photo-card polaroid-style"><div class="card-pin">📍</div><div class="photo-frame" onclick="openLightbox(5)"><img src="assets/photos/foto6.jpg" alt="Green Uniform 1" class="slide-photo" /><div class="photo-zoom-hint">🔍 Klik untuk perbesar</div></div><div class="photo-caption"><span class="caption-tag">#PitStop6</span><p class="caption-text">Cantiknya pakai seragam kebanggaan! Makin bersinar ✨💚</p></div></div></div>
+              <div class="carousel-slide" data-index="6"><div class="photo-card polaroid-style"><div class="card-pin">📍</div><div class="photo-frame" onclick="openLightbox(6)"><img src="assets/photos/foto7.png" alt="Green Uniform 2" class="slide-photo" /><div class="photo-zoom-hint">🔍 Klik untuk perbesar</div></div><div class="photo-caption"><span class="caption-tag">#PitStop7</span><p class="caption-text">Senyum manis yang selalu bikin hari jadi lebih cerah! 😭😭😭😭🥰🌿</p></div></div></div>
+              <div class="carousel-slide" data-index="7"><div class="photo-card polaroid-style"><div class="card-pin">📍</div><div class="photo-frame" onclick="openLightbox(7)"><img src="assets/photos/foto8.jpg" alt="Sports Uniform" class="slide-photo" /><div class="photo-zoom-hint">🔍 Klik untuk perbesar</div></div><div class="photo-caption"><span class="caption-tag">#PitStop8</span><p class="caption-text">Selalu semangat dan ceria! Senyum paling manis di tengah pantai 🏖️🌞</p></div></div></div>
+            </div>
+          </div>
+          <div class="carousel-controls">
+            <button class="carousel-nav-btn prev" id="btnCarouselPrev" aria-label="Foto Sebelumnya"><span>‹</span></button>
+            <div class="carousel-indicators-wrap">
+              <div class="carousel-dots" id="carouselDots">
+                <button class="dot active" data-index="0" aria-label="Slide 1"></button>
+                <button class="dot" data-index="1" aria-label="Slide 2"></button>
+                <button class="dot" data-index="2" aria-label="Slide 3"></button>
+                <button class="dot" data-index="3" aria-label="Slide 4"></button>
+                <button class="dot" data-index="4" aria-label="Slide 5"></button>
+                <button class="dot" data-index="5" aria-label="Slide 6"></button>
+                <button class="dot" data-index="6" aria-label="Slide 7"></button>
+                <button class="dot" data-index="7" aria-label="Slide 8"></button>
+              </div>
+              <span class="carousel-counter" id="carouselCounter">1 / 8</span>
+            </div>
+            <button class="carousel-nav-btn next" id="btnCarouselNext" aria-label="Foto Berikutnya"><span>›</span></button>
+          </div>
+        </div>
+        <div class="nav-button-group">
+          <button class="btn-race-secondary btn-nav-prev" data-target="2"><span>‹</span> Kembali</button>
+          <button id="btn-to-finale" class="btn-race-primary"><span class="btn-icon">🏁</span> Garis Finish &amp; Penutup <span class="btn-arrow">›</span></button>
+        </div>
+      </div>
+    </section>
+    <!-- SCENE 5: FINALE -->
+    <section id="scene-finale" class="scene scene-finale" data-scene="4">
+      <div class="finale-backdrop"></div>
+      <div class="scene-scroll-content finale-container">
+        <div class="section-badge"><span class="badge-icon">🏆</span> THE WINNER'S CIRCLE</div>
+        <h2 class="finale-title">Selamat Ulang Tahun, Ana! 🎉</h2>
+        <div class="mater-finale-rig" id="materFinaleRig">
+          <div class="speech-bubble" id="materSpeechBubble"><p class="bubble-text">"I knowed I made a good choice bein' your friend. Happy Birthday, Ana! 🤠"</p><span class="bubble-tail"></span></div>
+          <div class="mater-character-interactive" id="materInteractive" title="Klik Mater!">
+            <img src="assets/images/mater.png" alt="Tow Mater" class="mater-finale-img" />
+            <div class="easter-egg-hint">💡 Klik Mater!</div>
+          </div>
+        </div>
+        <div class="mcqueen-speedout-container" id="mcqueenSpeedoutContainer" title="Klik untuk McQueen melesat!">
+          <div class="speedout-track"><div class="speedout-car" id="mcqueenSpeedoutCar"><img src="assets/images/mcqueen.png" alt="Lightning McQueen Zoom" class="speedout-img" /><span class="speedout-flame">⚡💨</span></div></div>
+        </div>
+        <div class="finale-apology-card" style="background: rgba(0,0,0,0.6); padding: 20px; border-radius: 12px; margin-bottom: 25px; text-align: center; line-height: 1.6; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px); z-index: 10; position: relative;">
+          <p style="margin-bottom: 12px;">Ana, maaf banget ya aku cuma bisa bikin ini doang buat ulang tahunmu, foto-fotonya juga cuma dapet segitu doang hehe.</p>
+          <p style="margin-bottom: 12px;">Maaf juga kalau selama ini aku sering bikin jengkel. Maaf atas segala-galanya, dan maaf banget kalau aku sering bikin pikiranmu capek dll.</p>
+          <p style="margin-bottom: 12px;">Terima kasih banyak sudah mau berteman denganku. Sekali lagi, minta maaf buat semuanya ya.</p>
+          <p style="font-weight: bold; color: var(--color-rust-eze);">Doa yang terbaik untukmu! 💛</p>
+        </div>
+        <div class="finale-actions">
+          <button class="btn-race-secondary btn-nav-prev" data-target="3"><span>‹</span> Kembali ke Galeri</button>
+          <button id="btn-replay" class="btn-race-primary pulse-glow"><span class="btn-icon">🎉</span> Rayakan Lagi Dari Awal!</button>
+          <a href="https://wa.me/6287739909391?text=Iyaaa%20udah%20dimaafin%20kokkk!%20Makasih%20ya%20buat%20websitenya%20%F0%9F%98%82" target="_blank" class="btn-race-share" style="text-decoration: none; display: inline-flex;"><span class="btn-icon">🙏</span> Maafin Aku</a>
+        </div>
+        <footer class="site-footer">
+          <div class="racing-checkered-strip"></div>
+          <p class="footer-text">Dibuat penuh kasih &amp; ketulusan untuk <strong>Ana Ayuningtyas</strong> di hari ulang tahunnya yang ke-18 💛</p>
+          <p class="footer-sub">Radiator Springs • Piston Cup Champion Edition 🏁</p>
+        </footer>
+      </div>
+    </section>
+  </main>
+  <div id="lightboxModal" class="lightbox-modal" onclick="closeLightbox(event)">
+    <div class="lightbox-content">
+      <button class="lightbox-close" onclick="closeLightbox()" aria-label="Tutup Preview">&times;</button>
+      <img id="lightboxImg" src="" alt="Full preview" class="lightbox-img" />
+      <div id="lightboxCaption" class="lightbox-caption"></div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

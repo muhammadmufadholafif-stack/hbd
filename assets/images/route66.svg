@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <path d="M 50 5 
+           C 70 5, 88 15, 88 35 
+           C 88 65, 55 92, 50 95 
+           C 45 92, 12 65, 12 35 
+           C 12 15, 30 5, 50 5 Z" 
+        fill="#FFFFFF" stroke="#111111" stroke-width="4"/>
+  <path d="M 50 10 
+           C 68 10, 83 18, 83 36 
+           C 83 62, 54 86, 50 89 
+           C 46 86, 17 62, 17 36 
+           C 17 18, 32 10, 50 10 Z" 
+        fill="#FFFFFF" stroke="#111111" stroke-width="2"/>
+  <text x="50" y="32" font-family="'Impact', 'Arial Black', sans-serif" font-size="16" font-weight="900" fill="#111111" text-anchor="middle" letter-spacing="1">ROUTE</text>
+  <text x="50" y="70" font-family="'Impact', 'Arial Black', sans-serif" font-size="38" font-weight="900" fill="#111111" text-anchor="middle" letter-spacing="-1">66</text>
+</svg>

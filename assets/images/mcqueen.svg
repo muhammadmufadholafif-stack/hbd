@@ -1,0 +1,172 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300" width="100%" height="100%">
+  <defs>
+    <!-- Red Body Gradient -->
+    <linearGradient id="redPaint" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF2A2A"/>
+      <stop offset="40%" stop-color="#E60000"/>
+      <stop offset="85%" stop-color="#B30000"/>
+      <stop offset="100%" stop-color="#800000"/>
+    </linearGradient>
+    
+    <!-- Roof Highlight Gradient -->
+    <linearGradient id="roofHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B6B"/>
+      <stop offset="100%" stop-color="#CC0000"/>
+    </linearGradient>
+
+    <!-- Windshield/Eyes Gradient -->
+    <linearGradient id="windshieldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="70%" stop-color="#E8F4F8"/>
+      <stop offset="100%" stop-color="#C5E2EE"/>
+    </linearGradient>
+
+    <!-- Chrome Rim Gradient -->
+    <radialGradient id="rimGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="45%" stop-color="#E60000"/>
+      <stop offset="70%" stop-color="#A00000"/>
+      <stop offset="100%" stop-color="#330000"/>
+    </radialGradient>
+
+    <!-- Tire Gradient -->
+    <radialGradient id="tireGrad" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#444444"/>
+      <stop offset="70%" stop-color="#1A1A1A"/>
+      <stop offset="100%" stop-color="#0A0A0A"/>
+    </radialGradient>
+
+    <!-- Lightning Bolt Gradient -->
+    <linearGradient id="boltGrad" x1="0%" y1="0%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#FFF000"/>
+      <stop offset="50%" stop-color="#FF9900"/>
+      <stop offset="100%" stop-color="#FF3300"/>
+    </linearGradient>
+
+    <!-- Rust-eze Badge Gradient -->
+    <radialGradient id="rustezeGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#8B3A1C"/>
+      <stop offset="70%" stop-color="#5C1D06"/>
+      <stop offset="100%" stop-color="#380F02"/>
+    </radialGradient>
+
+    <!-- Drop Shadow -->
+    <filter id="carShadow" x="-10%" y="-10%" width="120%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="8" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#carShadow)">
+    <!-- Shadow under car -->
+    <ellipse cx="250" cy="265" rx="200" ry="16" fill="#000000" opacity="0.35"/>
+
+    <!-- Rear Spoiler -->
+    <path d="M 45 135 L 75 95 L 115 102 L 95 140 Z" fill="#990000"/>
+    <path d="M 40 95 C 40 90, 120 95, 130 98 L 125 105 C 115 103, 40 98, 40 95 Z" fill="#FF1A1A"/>
+
+    <!-- Main Body Base Silhouette -->
+    <path d="M 55 210 
+             C 50 180, 70 145, 100 135 
+             C 140 120, 180 90, 240 85 
+             C 310 80, 360 110, 410 140 
+             C 450 165, 475 190, 465 220 
+             C 455 245, 420 250, 395 248 
+             C 385 210, 325 210, 315 248 
+             L 175 248 
+             C 165 210, 105 210, 95 248 
+             C 65 248, 55 230, 55 210 Z" 
+          fill="url(#redPaint)" stroke="#800000" stroke-width="2"/>
+
+    <!-- Cabin Roof and Glass Area -->
+    <path d="M 140 135 
+             C 170 100, 220 90, 265 88 
+             C 315 86, 355 110, 385 138 
+             C 365 142, 160 140, 140 135 Z" 
+          fill="#B30000"/>
+
+    <!-- Windshield (White Eyes Plate) -->
+    <path d="M 270 94 
+             C 310 92, 345 112, 375 136 
+             L 285 136 
+             C 275 115, 270 100, 270 94 Z" 
+          fill="url(#windshieldGrad)" stroke="#668899" stroke-width="1.5"/>
+
+    <!-- Eyelids (Red) -->
+    <path d="M 270 94 C 305 92, 340 108, 375 130 C 345 115, 305 102, 270 94 Z" fill="#CC0000"/>
+
+    <!-- Expressive Friendly Eyes (Blue) -->
+    <!-- Left Eye -->
+    <ellipse cx="310" cy="118" rx="11" ry="14" fill="#0088CC"/>
+    <ellipse cx="310" cy="118" rx="6" ry="8" fill="#111111"/>
+    <circle cx="313" cy="114" r="3.5" fill="#FFFFFF"/>
+
+    <!-- Right Eye -->
+    <ellipse cx="345" cy="123" rx="10" ry="13" fill="#0088CC"/>
+    <ellipse cx="345" cy="123" rx="5.5" ry="7.5" fill="#111111"/>
+    <circle cx="348" cy="119" r="3" fill="#FFFFFF"/>
+
+    <!-- Side Window -->
+    <path d="M 155 132 C 175 105, 215 96, 255 94 L 265 135 C 220 135, 175 134, 155 132 Z" fill="#1A1A2E" opacity="0.85"/>
+
+    <!-- Lightning Bolt & 95 Decal -->
+    <g transform="translate(140, 135)">
+      <!-- Lightning Bolt -->
+      <polygon points="120,45 170,10 135,25 180,0 80,45 110,32" fill="url(#boltGrad)" stroke="#CC3300" stroke-width="1"/>
+      <polygon points="80,50 140,20 110,32 155,5 50,50 75,38" fill="#FFEE00" opacity="0.9"/>
+      
+      <!-- Number 95 -->
+      <text x="50" y="55" font-family="'Racing Sans One', 'Bebas Neue', 'Impact', sans-serif" font-size="44" font-weight="900" font-style="italic" fill="#FFF200" stroke="#CC0000" stroke-width="2.5" letter-spacing="-2">95</text>
+    </g>
+
+    <!-- Front Bumper / Grill Smile -->
+    <path d="M 425 210 C 445 215, 455 228, 440 234 C 420 238, 400 232, 395 225 Z" fill="#FFFFFF" stroke="#333333" stroke-width="2"/>
+    <!-- Teeth division / smile line -->
+    <path d="M 405 227 Q 425 232 442 225" stroke="#444444" stroke-width="1.5" fill="none"/>
+    <line x1="418" y1="223" x2="417" y2="231" stroke="#444444" stroke-width="1"/>
+    <line x1="428" y1="225" x2="427" y2="232" stroke="#444444" stroke-width="1"/>
+
+    <!-- Headlight Stickers -->
+    <polygon points="435,170 455,180 445,190 425,182" fill="#FFE566" stroke="#E6A800" stroke-width="1.5"/>
+    <polygon points="438,173 450,180 443,186 430,180" fill="#FFFFFF" opacity="0.75"/>
+
+    <!-- Hood Rust-eze Logo Badge -->
+    <ellipse cx="380" cy="165" rx="18" ry="10" fill="url(#rustezeGrad)" stroke="#FFCC00" stroke-width="1.5"/>
+    <text x="380" y="168" font-family="sans-serif" font-size="6" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Rust-eze</text>
+
+    <!-- Front Wheel (Right side) -->
+    <g transform="translate(350, 235)">
+      <!-- Tire -->
+      <circle cx="0" cy="0" r="36" fill="url(#tireGrad)"/>
+      <circle cx="0" cy="0" r="32" fill="#1A1A1A"/>
+      <!-- Lightyear Text on Tire -->
+      <path id="tireTextPathFront" d="M -26 0 A 26 26 0 1 1 26 0" fill="none"/>
+      <text font-size="6" font-weight="bold" fill="#E6E600" letter-spacing="1">
+        <textPath href="#tireTextPathFront" startOffset="50%" text-anchor="middle">LIGHTYEAR</textPath>
+      </text>
+      <!-- Rim -->
+      <circle cx="0" cy="0" r="21" fill="url(#rimGrad)" stroke="#B30000" stroke-width="2"/>
+      <circle cx="0" cy="0" r="8" fill="#FFCC00"/>
+      <circle cx="0" cy="0" r="4" fill="#1A1A1A"/>
+    </g>
+
+    <!-- Rear Wheel (Left side) -->
+    <g transform="translate(135, 235)">
+      <!-- Tire -->
+      <circle cx="0" cy="0" r="38" fill="url(#tireGrad)"/>
+      <circle cx="0" cy="0" r="34" fill="#1A1A1A"/>
+      <!-- Lightyear Text on Tire -->
+      <path id="tireTextPathRear" d="M -27 0 A 27 27 0 1 1 27 0" fill="none"/>
+      <text font-size="6.5" font-weight="bold" fill="#E6E600" letter-spacing="1">
+        <textPath href="#tireTextPathRear" startOffset="50%" text-anchor="middle">LIGHTYEAR</textPath>
+      </text>
+      <!-- Rim -->
+      <circle cx="0" cy="0" r="22" fill="url(#rimGrad)" stroke="#B30000" stroke-width="2"/>
+      <circle cx="0" cy="0" r="8" fill="#FFCC00"/>
+      <circle cx="0" cy="0" r="4" fill="#1A1A1A"/>
+    </g>
+
+    <!-- Body Reflections and Aerodynamic lines -->
+    <path d="M 120 160 C 180 150, 260 148, 360 165" stroke="#FF6666" stroke-width="2.5" fill="none" opacity="0.6" stroke-linecap="round"/>
+    <path d="M 230 170 C 290 168, 370 175, 410 195" stroke="#FFA3A3" stroke-width="2" fill="none" opacity="0.5" stroke-linecap="round"/>
+  </g>
+</svg>

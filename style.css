@@ -1,0 +1,1725 @@
+/* ==========================================================================
+   WEBSITE ULANG TAHUN KE-18 ANA AYUNINGTYAS — TEMA CARS (PIXAR)
+   Palette: Racing Red (#CC0000), Sunset Orange (#FF6B2B), Asphalt (#1A1A2E)
+   Warm Sand (#F5DEB3), Sky Blue (#87CEEB), Champion Gold (#FFD700)
+   SCENE-BY-SCENE CINEMATIC PRESENTATION ARCHITECTURE
+   ========================================================================== */
+
+:root {
+  --color-racing-red: #CC0000;
+  --color-racing-red-glow: rgba(204, 0, 0, 0.4);
+  --color-sunset-orange: #FF6B2B;
+  --color-sunset-yellow: #FFB300;
+  --color-champion-gold: #FFD700;
+  --color-sky-blue: #87CEEB;
+  --color-asphalt-dark: #1A1A2E;
+  --color-asphalt-darker: #0F0F1A;
+  --color-warm-sand: #F5DEB3;
+  --color-cream-light: #FFF9F0;
+  --color-road-white: #EEEEEE;
+  
+  --font-racing: 'Racing Sans One', 'Bebas Neue', sans-serif;
+  --font-heading: 'Bebas Neue', 'Outfit', sans-serif;
+  --font-body: 'Nunito', 'Outfit', system-ui, -apple-system, sans-serif;
+  
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
+  --shadow-neon-red: 0 0 25px rgba(204, 0, 0, 0.7);
+  --shadow-neon-gold: 0 0 25px rgba(255, 215, 0, 0.6);
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+  
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Base Reset & Global Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  min-height: 100dvh;
+  overflow: hidden;
+  background-color: var(--color-asphalt-darker);
+  color: var(--color-warm-sand);
+  font-family: var(--font-body);
+  position: fixed;
+  left: 0;
+  top: 0;
+  line-height: 1.5;
+}
+
+/* Custom Scrollbar for scrollable inner content */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(204, 0, 0, 0.6);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-sunset-orange);
+}
+
+/* ==========================================================================
+   CHECKERED FLAG PATTERNS
+   ========================================================================== */
+.racing-checkered-strip {
+  width: 100%;
+  height: 14px;
+  background-color: #ffffff;
+  background-image: 
+    linear-gradient(45deg, #111111 25%, transparent 25%), 
+    linear-gradient(-45deg, #111111 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #111111 75%), 
+    linear-gradient(-45deg, transparent 75%, #111111 75%);
+  background-size: 14px 14px;
+  background-position: 0 0, 0 7px, 7px -7px, -7px 0px;
+}
+
+.racing-checkered-strip-vertical {
+  width: 12px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: #ffffff;
+  background-image: 
+    linear-gradient(45deg, #111111 25%, transparent 25%), 
+    linear-gradient(-45deg, #111111 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #111111 75%), 
+    linear-gradient(-45deg, transparent 75%, #111111 75%);
+  background-size: 12px 12px;
+  background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
+}
+
+.racing-checkered-strip-vertical.left { left: 0; border-top-left-radius: var(--radius-md); border-bottom-left-radius: var(--radius-md); }
+.racing-checkered-strip-vertical.right { right: 0; border-top-right-radius: var(--radius-md); border-bottom-right-radius: var(--radius-md); }
+
+/* ==========================================================================
+   TOP STORY-STYLE PROGRESS INDICATOR (5 SCENES)
+   ========================================================================== */
+.scene-progress-nav {
+  position: fixed;
+  top: 10px;
+  left: 16px;
+  right: 76px; /* leave room for audio button */
+  height: 6px;
+  display: flex;
+  gap: 6px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.progress-segment {
+  flex: 1;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  backdrop-filter: blur(4px);
+  position: relative;
+}
+
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #FF6B2B, #FFD700);
+  border-radius: var(--radius-full);
+  transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+}
+
+.progress-segment.completed .progress-fill {
+  width: 100%;
+  background: #00FF66;
+  box-shadow: 0 0 8px #00FF66;
+}
+
+.progress-segment.active .progress-fill {
+  width: 100%;
+  background: linear-gradient(90deg, #FF2A2A, #FFD700);
+}
+
+/* ==========================================================================
+   FLOATING AUDIO CONTROLS
+   ========================================================================== */
+.audio-control-wrapper {
+  position: fixed;
+  top: 10px;
+  right: 14px;
+  z-index: 1000;
+}
+
+.audio-btn {
+  background: rgba(26, 26, 46, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 2px solid var(--color-champion-gold);
+  border-radius: var(--radius-full);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), var(--shadow-neon-gold);
+  transition: transform var(--transition-bounce), background-color var(--transition-fast);
+  position: relative;
+}
+
+.audio-btn:hover {
+  transform: scale(1.12);
+  background: rgba(204, 0, 0, 0.9);
+}
+
+.audio-icon {
+  font-size: 1.3rem;
+  user-select: none;
+}
+
+.audio-pulse {
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-champion-gold);
+  opacity: 0.6;
+  animation: pulse-ring 2s infinite ease-out;
+  pointer-events: none;
+}
+
+.audio-btn.muted .audio-pulse {
+  display: none;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+/* ==========================================================================
+   TOAST NOTIFICATION
+   ========================================================================== */
+.toast {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%) translateY(120px);
+  background: rgba(26, 26, 46, 0.95);
+  backdrop-filter: blur(10px);
+  border: 2px solid var(--color-champion-gold);
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), var(--shadow-neon-gold);
+  z-index: 2500;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: transform var(--transition-bounce), opacity var(--transition-normal);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.toast-icon {
+  font-size: 1.2rem;
+}
+
+/* ==========================================================================
+   MAIN APP & SCENES ARCHITECTURE (SCENE-BY-SCENE TRANSITIONS)
+   ========================================================================== */
+.app-container {
+  width: 100vw;
+  height: 100dvh;
+  position: relative;
+  overflow: hidden;
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.94) translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1), visibility 0.5s ease;
+  overflow: hidden;
+}
+
+.scene.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: scale(1) translateY(0);
+  z-index: 10;
+}
+
+/* Scrollable container inside each scene if content exceeds small mobile height */
+.scene-scroll-content {
+  width: 100%;
+  max-width: 800px;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 18px 30px;
+  z-index: 10;
+  position: relative;
+  text-align: center;
+}
+
+/* Common Badges */
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(204, 0, 0, 0.85);
+  border: 2px solid var(--color-champion-gold);
+  color: #ffffff;
+  padding: 6px 18px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-racing);
+  font-size: 0.9rem;
+  letter-spacing: 1.5px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+
+/* Navigation button group */
+.nav-button-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 500px;
+  margin-top: 14px;
+}
+
+/* ==========================================================================
+   BUTTONS (RACING THEME)
+   ========================================================================== */
+.btn-race-primary {
+  background: linear-gradient(135deg, #FF2A2A 0%, #CC0000 50%, #990000 100%);
+  color: #ffffff;
+  border: 2px solid var(--color-champion-gold);
+  padding: 13px 28px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-racing);
+  font-size: 1.15rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 6px 20px rgba(204, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+  transition: all var(--transition-normal);
+  text-decoration: none;
+  user-select: none;
+}
+
+.btn-race-primary:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(204, 0, 0, 0.7), var(--shadow-neon-red);
+}
+
+.btn-race-primary:active {
+  transform: translateY(2px) scale(0.98);
+}
+
+.btn-race-secondary {
+  background: rgba(26, 26, 46, 0.85);
+  backdrop-filter: blur(8px);
+  color: var(--color-champion-gold);
+  border: 2px solid var(--color-champion-gold);
+  padding: 12px 22px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-racing);
+  font-size: 1.05rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: all var(--transition-normal);
+  user-select: none;
+}
+
+.btn-race-secondary:hover {
+  background: var(--color-champion-gold);
+  color: var(--color-asphalt-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-neon-gold);
+}
+
+.btn-race-share {
+  background: linear-gradient(135deg, #FF6B2B 0%, #E65100 100%);
+  color: #ffffff;
+  border: 2px solid #FFE082;
+  padding: 13px 28px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-racing);
+  font-size: 1.15rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 6px 20px rgba(255, 107, 43, 0.5);
+  transition: all var(--transition-normal);
+  user-select: none;
+}
+
+.btn-race-share:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(255, 107, 43, 0.7);
+}
+
+.pulse-glow {
+  animation: btn-pulse 2s infinite;
+}
+
+@keyframes btn-pulse {
+  0%, 100% { box-shadow: 0 6px 20px rgba(204, 0, 0, 0.5); }
+  50% { box-shadow: 0 8px 30px rgba(204, 0, 0, 0.9), 0 0 18px #FFD700; }
+}
+
+.btn-bounce {
+  animation: subtle-bounce 2.5s infinite ease-in-out;
+}
+
+@keyframes subtle-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ==========================================================================
+   SCENE 1: INTRO / LOADING SCREEN
+   ========================================================================== */
+.scene-intro {
+  background: radial-gradient(circle at center, #1A1A2E 0%, #0D0D17 70%, #05050A 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-bottom: 130px; /* leave space for race track strip */
+}
+
+.scene-intro .scene-scroll-content.intro-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 80px 20px 20px;
+  overflow: hidden;
+}
+
+
+.intro-asphalt-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+.spotlight {
+  position: absolute;
+  width: 350px;
+  height: 500px;
+  opacity: 0.18;
+  filter: blur(50px);
+  pointer-events: none;
+}
+.spotlight-left {
+  top: -100px;
+  left: -50px;
+  background: radial-gradient(circle, var(--color-champion-gold), transparent 70%);
+}
+.spotlight-right {
+  top: -100px;
+  right: -50px;
+  background: radial-gradient(circle, var(--color-racing-red), transparent 70%);
+}
+
+/* Countdown Traffic Lights */
+.start-traffic-lights {
+  position: absolute;
+  top: 36px;
+  display: flex;
+  gap: 12px;
+  background: #111111;
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  border: 3px solid #333333;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+  z-index: 20;
+}
+
+.traffic-light-bulb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #331111;
+  border: 2px solid #222222;
+  transition: all 0.3s ease;
+}
+
+.traffic-light-bulb.red.active {
+  background: #FF0000;
+  box-shadow: 0 0 18px #FF0000;
+}
+.traffic-light-bulb.yellow.active {
+  background: #FFBB00;
+  box-shadow: 0 0 18px #FFBB00;
+}
+.traffic-light-bulb.green.active {
+  background: #00FF66;
+  box-shadow: 0 0 22px #00FF66;
+}
+
+/* Mater Intro Rig & Banner */
+.mater-intro-rig {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  margin: 15px auto 20px;
+  animation: mater-drive-in 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes mater-drive-in {
+  0% { transform: translateX(-110vw); opacity: 0; }
+  75% { transform: translateX(12px); }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+.mater-truck-wrap {
+  width: 190px;
+  max-width: 65vw;
+  filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.7));
+  animation: truck-chug 0.6s infinite alternate ease-in-out;
+}
+
+@keyframes truck-chug {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-4px) rotate(1.5deg); }
+}
+
+.mater-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.tow-cable {
+  width: 4px;
+  height: 20px;
+  background: repeating-linear-gradient(to bottom, #444, #444 3px, #222 3px, #222 6px);
+  margin: -4px auto 0;
+}
+
+.intro-banner-wrap {
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), var(--shadow-neon-gold);
+  border: 3px solid var(--color-champion-gold);
+  animation: banner-wave 3s infinite ease-in-out;
+}
+
+@keyframes banner-wave {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-1deg) scale(1.01); }
+}
+
+.intro-banner {
+  background: linear-gradient(135deg, #FF6B2B 0%, #CC0000 60%, #990000 100%);
+  padding: 18px 16px;
+  color: #ffffff;
+}
+
+.banner-badge {
+  display: inline-block;
+  background: #111111;
+  color: var(--color-champion-gold);
+  font-family: var(--font-racing);
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  margin-bottom: 8px;
+}
+
+.banner-title {
+  font-family: var(--font-racing);
+  font-size: clamp(1.9rem, 6vw, 3rem);
+  color: var(--color-champion-gold);
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
+  letter-spacing: 2px;
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.banner-subtitle {
+  font-size: clamp(1rem, 3.2vw, 1.25rem);
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.intro-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.intro-hint {
+  font-size: 0.9rem;
+  color: rgba(245, 222, 179, 0.75);
+}
+
+/* ==========================================================================
+   SCENE 1: RACE TRACK (McQueen waits left, drives right on green)
+   ========================================================================== */
+
+/* Track strip fixed to the bottom of the scene */
+.intro-race-track {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 130px;
+  background: linear-gradient(to bottom, #1a1a1a 0%, #0d0d0d 100%);
+  border-top: 3px solid #333;
+  overflow: visible; /* changed from hidden so McQueen can exceed the top boundary */
+  z-index: 5;
+}
+
+/* Animated road dashes scrolling left to right (feel of movement) */
+.intro-road-lines {
+  position: absolute;
+  top: 50%;
+  left: -10%;
+  width: 120%;
+  display: flex;
+  gap: 40px;
+  transform: translateY(-50%);
+  animation: road-scroll 1.5s linear infinite;
+  animation-play-state: paused; /* starts when engine fires */
+}
+
+.intro-road-lines.scrolling {
+  animation-play-state: running;
+}
+
+@keyframes road-scroll {
+  0%   { transform: translateY(-50%) translateX(0); }
+  100% { transform: translateY(-50%) translateX(-80px); }
+}
+
+.road-dash {
+  flex-shrink: 0;
+  width: 60px;
+  height: 6px;
+  background: var(--color-champion-gold);
+  border-radius: 3px;
+  opacity: 0.5;
+}
+
+/* McQueen container: starts at left edge */
+.mcqueen-race-wrap {
+  position: absolute;
+  bottom: 10px;
+  left: 5%;
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  z-index: 10;
+  transition: none;
+  /* drive-in from left on scene load */
+  /* animation removed for idle start */
+}
+
+@keyframes mc-drive-in {
+  0%   { transform: translateX(-110vw); }
+  100% { transform: translateX(0); }
+}
+
+/* Idle bounce while waiting */
+.mcqueen-race-wrap.idle .mcqueen-race-img {
+  animation: mc-idle-bounce 0.25s infinite ease-in-out;
+}
+
+@keyframes mc-idle-bounce {
+  0%   { transform: translateY(0) rotate(0deg); }
+  25%  { transform: translateY(-3px) rotate(0.5deg); }
+  50%  { transform: translateY(0) rotate(0deg); }
+  75%  { transform: translateY(-2px) rotate(-0.5deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+/* GO! — McQueen blasts right and off screen */
+.mcqueen-race-wrap.go {
+  animation: mc-drive-out 0.9s cubic-bezier(0.4, 0, 1, 0.6) forwards !important;
+}
+
+@keyframes mc-drive-out {
+  0%   { transform: translateX(0) scaleY(1); }
+  30%  { transform: translateX(10px) scaleY(0.97); }
+  100% { transform: translateX(130vw) scaleY(1); }
+}
+
+.mcqueen-race-img {
+  width: clamp(160px, 30vw, 260px);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.9));
+}
+
+/* Engine exhaust smoke puffs */
+.mcqueen-engine-smoke {
+  position: absolute;
+  left: -18px;
+  bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  pointer-events: none;
+}
+
+.mcqueen-engine-smoke span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(200, 200, 200, 0.55);
+  animation: smoke-puff 1.2s infinite ease-out;
+  opacity: 0;
+}
+
+.mcqueen-engine-smoke span:nth-child(2) { animation-delay: 0.4s; }
+.mcqueen-engine-smoke span:nth-child(3) { animation-delay: 0.8s; }
+
+@keyframes smoke-puff {
+  0%   { opacity: 0.7; transform: translate(0, 0) scale(0.5); }
+  100% { opacity: 0; transform: translate(-20px, -30px) scale(2.5); }
+}
+
+/* Speed lines that appear on GO */
+.mcqueen-race-wrap.go::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -80px;
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(to left, transparent, rgba(255,107,43,0.8));
+  transform: translateY(-50%);
+  animation: speed-line-flash 0.3s linear infinite;
+}
+
+@keyframes speed-line-flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+
+
+/* ==========================================================================
+   SCENE 2: MAIN BIRTHDAY SCREEN (Radiator Springs)
+   ========================================================================== */
+.scene-main {
+  background-color: var(--color-asphalt-darker);
+}
+
+.scenic-background {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center 35%;
+  background-repeat: no-repeat;
+  filter: brightness(0.65) saturate(1.15);
+  transform: scale(1.02);
+  z-index: 1;
+}
+
+.scenic-gradient-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(26, 26, 46, 0.75) 0%,
+    rgba(26, 26, 46, 0.4) 40%,
+    rgba(15, 15, 26, 0.88) 100%
+  );
+}
+
+.route66-badge-float {
+  position: absolute;
+  top: 25px;
+  left: 18px;
+  width: 52px;
+  height: 52px;
+  z-index: 15;
+  filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.6));
+  animation: float-badge 4s infinite ease-in-out;
+}
+
+@keyframes float-badge {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(-3deg); }
+}
+
+.route66-img {
+  width: 100%;
+  height: 100%;
+}
+
+/* License Plate Component */
+.license-plate-container {
+  margin-bottom: 10px;
+  perspective: 600px;
+}
+
+.license-plate {
+  background: linear-gradient(180deg, #FFFFFF 0%, #E8E8E8 60%, #D0D0D0 100%);
+  border: 3px solid #1A1A2E;
+  border-radius: 10px;
+  padding: 5px 22px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+  position: relative;
+  transform: rotate(-1.5deg);
+  transition: transform var(--transition-bounce);
+}
+
+.license-plate:hover {
+  transform: rotate(0deg) scale(1.04);
+}
+
+.license-plate::before, .license-plate::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #777;
+  border-radius: 50%;
+  border: 1px solid #333;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.license-plate::before { left: 8px; }
+.license-plate::after { right: 8px; }
+
+.plate-state {
+  font-family: var(--font-racing);
+  font-size: 0.75rem;
+  color: var(--color-racing-red);
+  letter-spacing: 2.5px;
+  font-weight: 900;
+}
+
+.plate-number {
+  font-family: var(--font-racing);
+  font-size: clamp(1.6rem, 4.5vw, 2.2rem);
+  color: #1A1A2E;
+  font-weight: 900;
+  letter-spacing: 3px;
+  line-height: 1;
+  margin: 1px 0;
+  text-shadow: 1px 1px 0 #FFF;
+}
+
+.plate-slogan {
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: #555;
+  letter-spacing: 1.5px;
+}
+
+/* Birthday Hero Text */
+.birthday-hero-text {
+  margin-bottom: 12px;
+}
+
+.trophy-badge {
+  color: var(--color-champion-gold);
+  font-family: var(--font-racing);
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+.main-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.title-sub {
+  font-family: var(--font-heading);
+  font-size: clamp(1.3rem, 4vw, 2rem);
+  color: #FFFFFF;
+  letter-spacing: 2.5px;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+}
+
+.title-name {
+  font-family: var(--font-racing);
+  font-size: clamp(2.2rem, 7.5vw, 3.8rem);
+  background: linear-gradient(135deg, #FFD700 0%, #FF6B2B 50%, #FF0000 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 12px rgba(204, 0, 0, 0.7));
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.title-emoji {
+  font-size: clamp(1.4rem, 3.5vw, 1.8rem);
+  margin-top: 2px;
+}
+
+.main-subtitle {
+  font-size: clamp(0.95rem, 3vw, 1.2rem);
+  font-weight: 700;
+  color: var(--color-warm-sand);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-style: italic;
+}
+
+/* Lightning McQueen Stage */
+.mcqueen-stage {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  height: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px 0 15px;
+}
+
+.mcqueen-car-wrap {
+  width: 270px;
+  max-width: 75vw;
+  position: relative;
+  filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.8));
+  cursor: pointer;
+  transform: translateX(120vw) scale(0.7) skewX(-15deg);
+  opacity: 0;
+  transition: transform 1.2s cubic-bezier(0.1, 0.9, 0.2, 1), opacity 0.8s ease;
+}
+
+.scene-main.active .mcqueen-car-wrap {
+  transform: translateX(0) scale(1) skewX(0);
+  opacity: 1;
+}
+
+.mcqueen-car-wrap:hover {
+  animation: mcqueen-engine-rev 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes mcqueen-engine-rev {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-4px) scale(1.02); }
+}
+
+.mcqueen-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.mcqueen-speed-lines {
+  position: absolute;
+  right: -40px;
+  top: 40%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.speed-line {
+  height: 3px;
+  background: linear-gradient(to right, transparent, var(--color-champion-gold), #FFF);
+  border-radius: 2px;
+  animation: speed-dash 0.8s infinite ease-out;
+}
+.line-1 { width: 50px; animation-delay: 0.1s; }
+.line-2 { width: 80px; animation-delay: 0.3s; }
+.line-3 { width: 40px; animation-delay: 0.2s; }
+
+@keyframes speed-dash {
+  0% { transform: translateX(-25px); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateX(25px); opacity: 0; }
+}
+
+.scene-cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.track-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: #111116;
+  border-top: 2px solid #333340;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.track-stripes {
+  width: 200%;
+  height: 3px;
+  background: repeating-linear-gradient(90deg, var(--color-champion-gold) 0, var(--color-champion-gold) 35px, transparent 35px, transparent 70px);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: road-motion 1.2s linear infinite;
+}
+
+@keyframes road-motion {
+  0% { transform: translateX(0) translateY(-50%); }
+  100% { transform: translateX(-70px) translateY(-50%); }
+}
+
+/* ==========================================================================
+   SCENE 3: PESAN PERSONAL (Pit Stop Letter)
+   ========================================================================== */
+.scene-message {
+  background: linear-gradient(180deg, #0F0F1A 0%, #1A1A2E 50%, #0F0F1A 100%);
+}
+
+.message-backdrop {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(204, 0, 0, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(255, 107, 43, 0.15) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.letter-card-wrapper {
+  width: 100%;
+  max-width: 620px;
+  position: relative;
+  margin: 5px auto 16px;
+}
+
+.letter-card-border {
+  position: relative;
+  background: linear-gradient(135deg, #FFD700 0%, #CC0000 50%, #FF6B2B 100%);
+  padding: 6px;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), var(--shadow-neon-red);
+}
+
+.letter-card {
+  background: linear-gradient(145deg, #1F1F35 0%, #151528 100%);
+  border-radius: calc(var(--radius-lg) - 4px);
+  padding: 26px 28px;
+  color: #FFFFFF;
+  position: relative;
+  text-align: left;
+  overflow: hidden;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.card-stamp {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 48px;
+  height: 54px;
+  border: 2px dashed var(--color-champion-gold);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-champion-gold);
+  font-family: var(--font-racing);
+  line-height: 1;
+  opacity: 0.8;
+  transform: rotate(5deg);
+}
+
+.stamp-route { font-size: 0.55rem; letter-spacing: 1px; }
+.stamp-num { font-size: 1.15rem; font-weight: 900; margin: 1px 0; }
+.stamp-city { font-size: 0.55rem; font-weight: 700; }
+
+.card-header {
+  margin-bottom: 16px;
+  padding-right: 55px;
+}
+
+.card-sender-badge {
+  font-family: var(--font-racing);
+  font-size: clamp(1.1rem, 3.2vw, 1.35rem);
+  color: var(--color-champion-gold);
+  letter-spacing: 1.5px;
+}
+
+.card-date-badge {
+  font-size: 0.75rem;
+  color: var(--color-sunset-orange);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.card-body {
+  font-size: clamp(0.85rem, 2.4vw, 1rem);
+  line-height: 1.7;
+  color: #F0E6D8;
+}
+
+.letter-salutation {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--color-champion-gold);
+  font-family: var(--font-racing);
+  margin-bottom: 8px;
+}
+
+.letter-para {
+  margin-bottom: 12px;
+}
+
+.highlight-para {
+  background: rgba(204, 0, 0, 0.18);
+  border-left: 4px solid var(--color-champion-gold);
+  padding: 10px 14px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: #FFF;
+}
+
+.letter-signoff {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 215, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.kachow-signature {
+  font-family: var(--font-racing);
+  font-size: 1.6rem;
+  color: var(--color-champion-gold);
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px rgba(204, 0, 0, 0.6);
+}
+
+.signoff-sub {
+  font-size: 0.9rem;
+  color: rgba(245, 222, 179, 0.7);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   SCENE 4: GALERI FOTO (Our Pit Stop Moments)
+   ========================================================================== */
+.scene-gallery {
+  background: radial-gradient(circle at center, #1F1F35 0%, #121220 70%, #0A0A12 100%);
+}
+
+.gallery-header {
+  margin-bottom: 16px;
+}
+
+.gallery-title {
+  font-family: var(--font-racing);
+  font-size: clamp(1.8rem, 5.5vw, 2.8rem);
+  color: #FFFFFF;
+  letter-spacing: 1.5px;
+  margin-bottom: 4px;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+}
+
+.gallery-subtitle {
+  font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+  color: var(--color-warm-sand);
+}
+
+/* Carousel Component */
+.carousel-component {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto 16px;
+  position: relative;
+}
+
+.carousel-viewport {
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  position: relative;
+  touch-action: pan-y pinch-zoom;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+  width: 100%;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  box-sizing: border-box;
+  padding: 6px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Polaroid Style Card */
+.photo-card.polaroid-style {
+  background: #FFFFFF;
+  padding: 12px 12px 18px;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 380px;
+  position: relative;
+  color: #222222;
+  transition: transform var(--transition-bounce);
+}
+
+.photo-card.polaroid-style:hover {
+  transform: translateY(-3px) rotate(-0.5deg);
+}
+
+.card-pin {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.3rem;
+  z-index: 5;
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.3));
+}
+
+.photo-frame {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 6px;
+  position: relative;
+  background: #111;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.photo-frame:hover .slide-photo {
+  transform: scale(1.05);
+}
+
+.photo-zoom-hint {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  color: #FFF;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.photo-frame:hover .photo-zoom-hint {
+  opacity: 1;
+}
+
+.photo-caption {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.caption-tag {
+  display: inline-block;
+  background: var(--color-racing-red);
+  color: #FFF;
+  font-family: var(--font-racing);
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  margin-bottom: 4px;
+}
+
+.caption-text {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #2D2D2D;
+  line-height: 1.35;
+}
+
+/* Carousel Controls & Indicators */
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding: 0 8px;
+}
+
+.carousel-nav-btn {
+  background: rgba(26, 26, 46, 0.9);
+  border: 2px solid var(--color-champion-gold);
+  color: var(--color-champion-gold);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  transition: all var(--transition-normal);
+}
+
+.carousel-nav-btn:hover {
+  background: var(--color-champion-gold);
+  color: var(--color-asphalt-dark);
+  transform: scale(1.08);
+}
+
+.carousel-indicators-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.carousel-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid var(--color-champion-gold);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.dot.active {
+  width: 22px;
+  border-radius: 5px;
+  background: var(--color-champion-gold);
+  box-shadow: 0 0 8px var(--color-champion-gold);
+}
+
+.carousel-counter {
+  font-family: var(--font-racing);
+  font-size: 0.85rem;
+  color: var(--color-champion-gold);
+  letter-spacing: 1px;
+}
+
+/* ==========================================================================
+   SCENE 5: GRAND FINALE
+   ========================================================================== */
+.scene-finale {
+  background: linear-gradient(180deg, #121220 0%, #1A1A2E 50%, #0B0B12 100%);
+}
+
+.finale-title {
+  font-family: var(--font-racing);
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  background: linear-gradient(135deg, #FFFFFF 0%, #FFD700 60%, #FF6B2B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 16px;
+  letter-spacing: 1.5px;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+}
+
+.mater-finale-rig {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 440px;
+  margin: 5px auto 16px;
+}
+
+.speech-bubble {
+  background: #FFFFFF;
+  color: #1A1A2E;
+  padding: 14px 20px;
+  border-radius: var(--radius-lg);
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+  border: 3px solid var(--color-champion-gold);
+  margin-bottom: 14px;
+  animation: bubble-float 3s infinite ease-in-out;
+}
+
+@keyframes bubble-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.bubble-text {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 2.8vw, 1.15rem);
+  font-weight: 800;
+  line-height: 1.35;
+  font-style: italic;
+}
+
+.bubble-tail {
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 12px solid #FFFFFF;
+}
+
+.mater-character-interactive {
+  width: 200px;
+  max-width: 60vw;
+  cursor: pointer;
+  position: relative;
+  transition: transform var(--transition-bounce);
+}
+
+.mater-character-interactive:hover {
+  transform: scale(1.08) rotate(2deg);
+}
+
+.mater-character-interactive.honking {
+  animation: mater-honk-anim 0.5s ease-in-out;
+}
+
+@keyframes mater-honk-anim {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.15) rotate(-5deg) translateY(-8px); }
+  50% { transform: scale(1.12) rotate(5deg) translateY(-4px); }
+  75% { transform: scale(1.05) rotate(-2deg); }
+}
+
+.mater-finale-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.7));
+}
+
+.easter-egg-hint {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: var(--color-champion-gold);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 3px 12px;
+  border-radius: var(--radius-full);
+  display: inline-block;
+}
+
+/* McQueen Speed-Out Track (Scene 5) */
+.mcqueen-speedout-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 5px auto 18px;
+  overflow: hidden;
+  position: relative;
+  height: 75px;
+}
+
+.speedout-track {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-bottom: 2px dashed rgba(255, 215, 0, 0.4);
+}
+
+.speedout-car {
+  position: absolute;
+  bottom: 6px;
+  left: -180px;
+  width: 120px;
+  display: flex;
+  align-items: center;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.7));
+  cursor: pointer;
+}
+
+.speedout-car.zoom {
+  animation: mcqueen-speed-across 2.2s cubic-bezier(0.2, 0.85, 0.25, 1) forwards;
+}
+
+@keyframes mcqueen-speed-across {
+  0% { transform: translateX(0); }
+  15% { transform: translateX(70px); }
+  50% { transform: translateX(380px); }
+  75% { transform: translateX(550px); }
+  100% { transform: translateX(950px); }
+}
+
+.speedout-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.speedout-flame {
+  font-size: 1.3rem;
+  margin-left: -12px;
+  display: inline-block;
+  animation: flame-flicker 0.25s infinite alternate;
+}
+
+@keyframes flame-flicker {
+  0% { transform: scale(0.9) rotate(-4deg); }
+  100% { transform: scale(1.15) rotate(4deg); }
+}
+
+.finale-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* Site Footer */
+.site-footer {
+  width: 100%;
+  margin-top: 10px;
+  padding-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-text {
+  font-size: 0.85rem;
+  color: var(--color-warm-sand);
+  max-width: 480px;
+}
+
+.footer-sub {
+  font-family: var(--font-racing);
+  font-size: 0.75rem;
+  color: rgba(255, 215, 0, 0.7);
+  letter-spacing: 1.2px;
+}
+
+/* ==========================================================================
+   LIGHTBOX MODAL
+   ========================================================================== */
+.lightbox-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 20, 0.94);
+  backdrop-filter: blur(12px);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-normal), visibility var(--transition-normal);
+}
+
+.lightbox-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 750px;
+  width: 100%;
+  max-height: 90dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+  font-size: 2.2rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+.lightbox-close:hover {
+  transform: scale(1.2);
+  color: var(--color-champion-gold);
+}
+
+.lightbox-img {
+  max-width: 100%;
+  max-height: 70dvh;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 0 2px var(--color-champion-gold);
+}
+
+.lightbox-caption {
+  margin-top: 12px;
+  color: var(--color-warm-sand);
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN BREAKPOINTS
+   ========================================================================== */
+@media (max-width: 600px) {
+  .scene-scroll-content {
+    padding: 35px 14px 20px;
+  }
+  
+  .letter-card {
+    padding: 20px 16px;
+  }
+
+  .card-stamp {
+    width: 40px;
+    height: 46px;
+    top: 14px;
+    right: 14px;
+  }
+
+  .card-header {
+    padding-right: 45px;
+  }
+
+  .nav-button-group {
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+
+  .nav-button-group button {
+    width: 100%;
+  }
+
+  .btn-race-primary, .btn-race-share, .btn-race-secondary {
+    padding: 12px 18px;
+    font-size: 1.05rem;
+  }
+
+  .route66-badge-float {
+    top: 15px;
+    left: 12px;
+    width: 42px;
+    height: 42px;
+  }
+
+  .mcqueen-stage {
+    height: 140px;
+  }
+
+  .mcqueen-car-wrap {
+    width: 230px;
+  }
+
+  .finale-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .finale-actions button {
+    width: 100%;
+  }
+}
+
+.message-container {
+  justify-content: flex-start;
+  padding-top: 80px;
+}
