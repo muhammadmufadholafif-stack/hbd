@@ -613,6 +613,34 @@
     });
   }
 
+  // --- WEB3FORMS NOTIFICATION ---
+  function sendVisitorNotification() {
+    // ⚠️ GANTI TEKS DI BAWAH INI DENGAN ACCESS KEY DARI WEB3FORMS ⚠️
+    const accessKey = '87674c13-3714-4adc-8da5-bb7f2ec17e73'; 
+    
+    if (accessKey === 'YOUR_WEB3FORMS_ACCESS_KEY') return;
+    if (sessionStorage.getItem('notified')) return; // Mencegah spam notifikasi saat reload
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        access_key: accessKey,
+        subject: 'Website HBD Ana Sedang Dibuka! 🥳',
+        message: 'Halo! Seseorang baru saja membuka website ulang tahun Ana Ayuningtyas.\nWaktu kunjungan: ' + new Date().toLocaleString('id-ID'),
+        from_name: 'Notifikasi HBD Ana'
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) sessionStorage.setItem('notified', 'true');
+    })
+    .catch(err => console.error('Error notifikasi:', err));
+  }
+
   // --- INITIALIZATION ---
   document.addEventListener('DOMContentLoaded', () => {
     carousel.init();
@@ -620,6 +648,7 @@
     setupShareButton();
     setupNavigationButtons();
     goToScene(0);
+    sendVisitorNotification();
 
     // First user interaction unlock for browser audio policy
     const unlockAudio = () => {
