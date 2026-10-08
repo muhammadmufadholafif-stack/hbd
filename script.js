@@ -55,6 +55,7 @@
     if (bgmPlaying || isMuted) return;
     bgmPlaying = true;
     if (audioElements.bgm) {
+      audioElements.bgm.loop = true;
       audioElements.bgm.volume = 0.35;
       audioElements.bgm.play().catch(() => {});
     }
@@ -394,7 +395,7 @@
     '"Kau orang yang terbaik sobat"',
     '"Selamat ulang tahun bestie ! "',
     '"Ana yang terbaik se-Radiator Springs! Traktir olie Flo ya! 🥤"',
-    '"Aku sayang kamu temann❤️"'
+    '"Sukses selalu ya temann! ✨"'
   ];
 
   let materAudioBag = [];
