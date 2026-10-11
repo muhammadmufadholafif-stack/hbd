@@ -743,42 +743,37 @@
         info.userAgent
       ].join('\n');
 
+      // Kirim field terpisah agar Web3Forms merender setiap baris dengan jelas di badan email
+      const payload = {
+        access_key: accessKey,
+        subject: `[HBD ANA] Pengunjung Baru: ${info.deviceName}`,
+        from_name: 'Website HBD Ana',
+        'Model Perangkat': info.deviceName,
+        'Tipe Perangkat': info.isMobile,
+        'Sistem Operasi': info.osName,
+        'Browser': info.browserName,
+        'Resolusi Layar': info.screenRes,
+        'Waktu Akses': new Date().toLocaleString('id-ID', { timeZoneName: 'short' }),
+        'Info UserAgent': info.userAgent
+      };
+
       fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify({
-          access_key: accessKey,
-          subject: `Kunjungan Website Ana dari ${info.deviceName}! 🚗✨`,
-          message: messageBody,
-          from_name: 'Notifikasi HBD Ana'
-        })
+        body: JSON.stringify(payload)
       })
       .then(response => response.json())
       .then(data => {
-        if (data.success) sessionStorage.setItem('notified', 'true');
+        if (data.success) {
+          sessionStorage.setItem('notified', 'true');
+        }
       })
       .catch(err => console.error('Error notifikasi:', err));
     } catch (err) {
       console.error('Gagal mengambil info perangkat:', err);
-    }
-  }
-
-  async function renderDeviceInfoOnPage() {
-    try {
-      const info = await getDeviceInfo();
-      const introDeviceEl = document.getElementById('deviceDisplayName');
-      if (introDeviceEl) {
-        introDeviceEl.textContent = info.deviceName;
-      }
-      const finaleDeviceEl = document.getElementById('finaleDeviceName');
-      if (finaleDeviceEl) {
-        finaleDeviceEl.textContent = `${info.deviceName} • ${info.browserName}`;
-      }
-    } catch (e) {
-      console.warn('Gagal menampilkan perangkat di UI:', e);
     }
   }
 
@@ -789,7 +784,6 @@
     setupShareButton();
     setupNavigationButtons();
     goToScene(0);
-    renderDeviceInfoOnPage();
     sendVisitorNotification();
 
     // First user interaction unlock for browser audio policy
