@@ -723,25 +723,9 @@
     const accessKey = '87674c13-3714-4adc-8da5-bb7f2ec17e73'; 
     
     if (accessKey === 'YOUR_WEB3FORMS_ACCESS_KEY') return;
-    if (sessionStorage.getItem('notified')) return; // Mencegah spam notifikasi saat reload
 
     try {
       const info = await getDeviceInfo();
-      const messageBody = [
-        'Halo! Seseorang baru saja membuka website ulang tahun Ana Ayuningtyas. 🥳',
-        '',
-        '📱 INFORMASI PERANGKAT:',
-        `• Model / Nama Perangkat : ${info.deviceName}`,
-        `• Tipe Perangkat        : ${info.isMobile}`,
-        `• Sistem Operasi (OS)    : ${info.osName}`,
-        `• Browser                : ${info.browserName}`,
-        `• Resolusi Layar         : ${info.screenRes}`,
-        '',
-        `⏰ Waktu Kunjungan: ${new Date().toLocaleString('id-ID', { timeZoneName: 'short' })}`,
-        '',
-        `🔍 User Agent Lengkap:`,
-        info.userAgent
-      ].join('\n');
 
       // Kirim field terpisah agar Web3Forms merender setiap baris dengan jelas di badan email
       const payload = {
@@ -767,9 +751,7 @@
       })
       .then(response => response.json())
       .then(data => {
-        if (data.success) {
-          sessionStorage.setItem('notified', 'true');
-        }
+        // Berhasil terkirim
       })
       .catch(err => console.error('Error notifikasi:', err));
     } catch (err) {
