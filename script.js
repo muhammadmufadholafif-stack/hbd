@@ -766,6 +766,22 @@
     }
   }
 
+  async function renderDeviceInfoOnPage() {
+    try {
+      const info = await getDeviceInfo();
+      const introDeviceEl = document.getElementById('deviceDisplayName');
+      if (introDeviceEl) {
+        introDeviceEl.textContent = info.deviceName;
+      }
+      const finaleDeviceEl = document.getElementById('finaleDeviceName');
+      if (finaleDeviceEl) {
+        finaleDeviceEl.textContent = `${info.deviceName} • ${info.browserName}`;
+      }
+    } catch (e) {
+      console.warn('Gagal menampilkan perangkat di UI:', e);
+    }
+  }
+
   // --- INITIALIZATION ---
   document.addEventListener('DOMContentLoaded', () => {
     carousel.init();
@@ -773,6 +789,7 @@
     setupShareButton();
     setupNavigationButtons();
     goToScene(0);
+    renderDeviceInfoOnPage();
     sendVisitorNotification();
 
     // First user interaction unlock for browser audio policy
