@@ -614,32 +614,156 @@
     });
   }
 
-  // --- WEB3FORMS NOTIFICATION ---
-  function sendVisitorNotification() {
-    // ⚠️ GANTI TEKS DI BAWAH INI DENGAN ACCESS KEY DARI WEB3FORMS ⚠️
+  // --- DEVICE DETECTION & WEB3FORMS NOTIFICATION ---
+  async function getDeviceInfo() {
+    const ua = navigator.userAgent;
+    let deviceName = 'Tidak Diketahui';
+    let osName = 'Tidak Diketahui';
+    let browserName = 'Browser Lainnya';
+
+    // 1. Deteksi Browser
+    if (/Instagram/i.test(ua)) browserName = 'Instagram In-App Browser';
+    else if (/FBAN|FBAV/i.test(ua)) browserName = 'Facebook In-App Browser';
+    else if (/WhatsApp/i.test(ua)) browserName = 'WhatsApp In-App Browser';
+    else if (/TikTok/i.test(ua)) browserName = 'TikTok In-App Browser';
+    else if (/EdgA?|Edge/i.test(ua)) browserName = 'Microsoft Edge';
+    else if (/SamsungBrowser/i.test(ua)) browserName = 'Samsung Internet';
+    else if (/OPR|Opera/i.test(ua)) browserName = 'Opera';
+    else if (/Chrome|CriOS/i.test(ua)) browserName = 'Google Chrome';
+    else if (/Firefox|FxiOS/i.test(ua)) browserName = 'Mozilla Firefox';
+    else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browserName = 'Apple Safari';
+
+    // 2. Deteksi OS & Nama Perangkat
+    const width = Math.min(window.screen.width, window.screen.height);
+    const height = Math.max(window.screen.width, window.screen.height);
+    const dpr = window.devicePixelRatio || 1;
+
+    // A. Apple iOS (iPhone / iPad)
+    if (/iPhone/i.test(ua)) {
+      osName = 'iOS (iPhone)';
+      // Tebak model berdasarkan resolusi layar (CSS px) dan Device Pixel Ratio (DPR)
+      if (width === 430 && height === 932) {
+        deviceName = 'iPhone 14 Pro Max / 15 Plus / 15 Pro Max / 16 Plus';
+      } else if (width === 393 && height === 852) {
+        deviceName = 'iPhone 14 Pro / 15 / 15 Pro / 16';
+      } else if (width === 440 && height === 956) {
+        deviceName = 'iPhone 16 Pro Max';
+      } else if (width === 402 && height === 874) {
+        deviceName = 'iPhone 16 Pro';
+      } else if (width === 428 && height === 926) {
+        deviceName = 'iPhone 12 Pro Max / 13 Pro Max / 14 Plus';
+      } else if (width === 390 && height === 844) {
+        deviceName = 'iPhone 12 / 12 Pro / 13 / 13 Pro / 14';
+      } else if (width === 375 && height === 812) {
+        deviceName = (dpr === 3) ? 'iPhone X / XS / 11 Pro' : 'iPhone 12 mini / 13 mini';
+      } else if (width === 414 && height === 896) {
+        deviceName = (dpr === 3) ? 'iPhone XS Max / 11 Pro Max' : 'iPhone XR / iPhone 11';
+      } else if (width === 414 && height === 736) {
+        deviceName = 'iPhone 6 Plus / 7 Plus / 8 Plus';
+      } else if (width === 375 && height === 667) {
+        deviceName = 'iPhone 6 / 7 / 8 / SE (2nd/3rd Gen)';
+      } else {
+        deviceName = `iPhone (Resolusi: ${width}x${height}, DPR: ${dpr})`;
+      }
+    } else if (/iPad/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) {
+      osName = 'iPadOS';
+      deviceName = 'Apple iPad';
+    } else if (/Android/i.test(ua)) {
+      osName = 'Android';
+      deviceName = 'Android Device';
+
+      // Coba User-Agent Client Hints (Chromium modern)
+      if (navigator.userAgentData && typeof navigator.userAgentData.getHighEntropyValues === 'function') {
+        try {
+          const hint = await navigator.userAgentData.getHighEntropyValues(['model', 'platformVersion']);
+          if (hint.model && hint.model.trim()) {
+            deviceName = hint.model.trim();
+          }
+        } catch (e) {
+          // ignore error
+        }
+      }
+
+      // Jika Client Hints belum dapat nama spesifik, ekstrak dari UA string
+      if (deviceName === 'Android Device') {
+        const match = ua.match(/;\s*([A-Za-z0-9\s_\-\/\.]+)\s+Build\//i) ||
+                      ua.match(/Android[^;]+;\s*([A-Za-z0-9\s_\-\.]+)\)/i);
+        if (match && match[1]) {
+          deviceName = match[1].replace(/Build\/.*/i, '').trim();
+        }
+      }
+    } else if (/Windows NT/i.test(ua)) {
+      osName = 'Windows PC / Laptop';
+      if (/Windows NT 10.0/i.test(ua)) osName = 'Windows 10 / 11';
+      else if (/Windows NT 6.3/i.test(ua)) osName = 'Windows 8.1';
+      else if (/Windows NT 6.1/i.test(ua)) osName = 'Windows 7';
+      deviceName = 'Komputer / Laptop (Windows)';
+    } else if (/Macintosh/i.test(ua)) {
+      osName = 'macOS';
+      deviceName = 'Apple Mac / MacBook';
+    } else if (/Linux/i.test(ua)) {
+      osName = 'Linux';
+      deviceName = 'Komputer / Laptop (Linux)';
+    }
+
+    const screenRes = `${window.screen.width} x ${window.screen.height} (DPR: ${window.devicePixelRatio || 1})`;
+    const isMobile = /Mobi|Android|iPhone|iPad/i.test(ua) ? 'HP / Tablet (Mobile)' : 'PC / Laptop (Desktop)';
+
+    return {
+      deviceName,
+      osName,
+      browserName,
+      screenRes,
+      isMobile,
+      userAgent: ua
+    };
+  }
+
+  async function sendVisitorNotification() {
     const accessKey = '87674c13-3714-4adc-8da5-bb7f2ec17e73'; 
     
     if (accessKey === 'YOUR_WEB3FORMS_ACCESS_KEY') return;
     if (sessionStorage.getItem('notified')) return; // Mencegah spam notifikasi saat reload
 
-    fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        access_key: accessKey,
-        subject: 'Website HBD Ana Sedang Dibuka! 🥳',
-        message: 'Halo! Seseorang baru saja membuka website ulang tahun Ana Ayuningtyas.\nWaktu kunjungan: ' + new Date().toLocaleString('id-ID'),
-        from_name: 'Notifikasi HBD Ana'
+    try {
+      const info = await getDeviceInfo();
+      const messageBody = [
+        'Halo! Seseorang baru saja membuka website ulang tahun Ana Ayuningtyas. 🥳',
+        '',
+        '📱 INFORMASI PERANGKAT:',
+        `• Model / Nama Perangkat : ${info.deviceName}`,
+        `• Tipe Perangkat        : ${info.isMobile}`,
+        `• Sistem Operasi (OS)    : ${info.osName}`,
+        `• Browser                : ${info.browserName}`,
+        `• Resolusi Layar         : ${info.screenRes}`,
+        '',
+        `⏰ Waktu Kunjungan: ${new Date().toLocaleString('id-ID', { timeZoneName: 'short' })}`,
+        '',
+        `🔍 User Agent Lengkap:`,
+        info.userAgent
+      ].join('\n');
+
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          subject: `Kunjungan Website Ana dari ${info.deviceName}! 🚗✨`,
+          message: messageBody,
+          from_name: 'Notifikasi HBD Ana'
+        })
       })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) sessionStorage.setItem('notified', 'true');
-    })
-    .catch(err => console.error('Error notifikasi:', err));
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) sessionStorage.setItem('notified', 'true');
+      })
+      .catch(err => console.error('Error notifikasi:', err));
+    } catch (err) {
+      console.error('Gagal mengambil info perangkat:', err);
+    }
   }
 
   // --- INITIALIZATION ---
