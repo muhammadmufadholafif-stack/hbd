@@ -727,18 +727,30 @@
     try {
       const info = await getDeviceInfo();
 
-      // Kirim field terpisah agar Web3Forms merender setiap baris dengan jelas di badan email
+      const fullSummary = [
+        `Pengunjung baru membuka website ulang tahun Ana!`,
+        ``,
+        `• Model Perangkat : ${info.deviceName}`,
+        `• Tipe            : ${info.isMobile}`,
+        `• Sistem Operasi  : ${info.osName}`,
+        `• Browser         : ${info.browserName}`,
+        `• Resolusi Layar  : ${info.screenRes}`,
+        `• Waktu Kunjungan : ${new Date().toLocaleString('id-ID', { timeZoneName: 'short' })}`,
+        ``,
+        `• User-Agent:`,
+        info.userAgent
+      ].join('\n');
+
       const payload = {
         access_key: accessKey,
         subject: `[HBD ANA] Pengunjung Baru: ${info.deviceName}`,
         from_name: 'Website HBD Ana',
-        'Model Perangkat': info.deviceName,
-        'Tipe Perangkat': info.isMobile,
-        'Sistem Operasi': info.osName,
+        message: fullSummary,
+        'Model_Perangkat': info.deviceName,
+        'Sistem_Operasi': info.osName,
         'Browser': info.browserName,
-        'Resolusi Layar': info.screenRes,
-        'Waktu Akses': new Date().toLocaleString('id-ID', { timeZoneName: 'short' }),
-        'Info UserAgent': info.userAgent
+        'Resolusi_Layar': info.screenRes,
+        'Waktu_Akses': new Date().toLocaleString('id-ID', { timeZoneName: 'short' })
       };
 
       fetch('https://api.web3forms.com/submit', {
@@ -751,7 +763,7 @@
       })
       .then(response => response.json())
       .then(data => {
-        // Berhasil terkirim
+        console.log('Status Web3Forms:', data);
       })
       .catch(err => console.error('Error notifikasi:', err));
     } catch (err) {
