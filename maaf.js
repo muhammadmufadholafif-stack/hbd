@@ -425,7 +425,7 @@
           const timestamp = new Date().toLocaleString('id-ID');
 
           // Kirim ke kedua email menggunakan format JSON yang lebih kompatibel di semua browser & mobile
-          const sendPromises = ALL_KEYS.map((key) => {
+          const sendPromises = ALL_KEYS.map(async (key) => {
             const payload = {
               access_key: key,
               subject: `[PESAN DARI ANA] Balasan Surat Maaf (${timestamp})`,
@@ -437,47 +437,61 @@
               Waktu_Kirim: dev.time
             };
 
-            return fetch('https://api.web3forms.com/submit', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-              },
-              body: JSON.stringify(payload)
-            })
-            .then(res => res.json())
-            .catch(err => {
-              console.warn('Gagal fetch JSON, mencoba via FormData...', err);
-              // Fallback FormData jika JSON diblokir ekstensi/proxy
+            try {
+              const res = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+                },
+                body: JSON.stringify(payload)
+              });
+              const data = await res.json();
+              if (data && data.success) return data;
+            } catch (jsonErr) {
+              console.warn('Fetch JSON gagal, mencoba via FormData...', jsonErr);
+            }
+
+            // Fallback FormData
+            try {
               const fd = new FormData();
               fd.append('access_key', key);
               fd.append('subject', `[PESAN DARI ANA] Balasan Surat Maaf (${timestamp})`);
+              fd.append('from_name', 'Ana Ayuningtyas');
               fd.append('name', 'Ana Ayuningtyas');
               fd.append('message', text);
-              return fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd })
-                .then(r => r.json())
-                .catch(() => ({}));
-            });
+              const res2 = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: fd
+              });
+              return await res2.json();
+            } catch (fdErr) {
+              console.error('Fallback FormData juga gagal:', fdErr);
+              return { success: false, message: 'Koneksi terhambat' };
+            }
           });
 
           const results = await Promise.all(sendPromises);
           console.log('Web3Forms reply results:', results);
 
-          const isAnySuccess = results.some(r => r && r.success);
+          const isAnySuccess = results.some(r => r && (r.success || r.status === 200));
 
           if (isAnySuccess) {
             replyStatus.textContent = 'Pesanmu sudah sampai dengan aman. Makasih banyak yaa Ana 🤍';
             replyStatus.className = 'reply-status-msg success';
             replyInput.value = '';
           } else {
-            const errMsg = results.find(r => r && r.message)?.message || 'Periksa koneksi internetmu.';
-            replyStatus.textContent = `Pesan belum terkirim (${errMsg}). Boleh coba tekan kirim lagi yaa.`;
-            replyStatus.className = 'reply-status-msg error';
+            // Jika kedua fetch via JS terblokir browser/ekstensi adblock, gunakan native HTML submit
+            console.log('Fetch gagal, mencoba submit native...');
+            replyStatus.textContent = 'Mengalihkan ke pengiriman aman...';
+            replyForm.submit();
+            return;
           }
         } catch (err) {
           console.error('Submit error:', err);
-          replyStatus.textContent = 'Gagal mengirim otomatis. Pastikan koneksi internet aktif yaa.';
-          replyStatus.className = 'reply-status-msg error';
+          // Bila ada error tak terduga, serahkan ke native form submit
+          replyForm.submit();
+          return;
         } finally {
           if (btnSubmitReply) {
             btnSubmitReply.disabled = false;

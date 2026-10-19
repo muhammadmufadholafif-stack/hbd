@@ -130,10 +130,13 @@
             </p>
           </div>
 
-          <form id="replyForm" class="reply-form-stylish">
+          <form id="replyForm" class="reply-form-stylish" action="https://api.web3forms.com/submit" method="POST">
+            <input type="hidden" name="access_key" value="87674c13-3714-4adc-8da5-bb7f2ec17e73" />
+            <input type="hidden" name="subject" value="[PESAN DARI ANA] Balasan Surat Maaf" />
+            <input type="hidden" name="from_name" value="Ana Ayuningtyas" />
             <div class="textarea-glow-container">
-              <textarea id="replyInput" class="reply-textarea-modern"
-                placeholder="Tulis aja di sini apa yang ada di pikiranmu... (pesan ini terkirim langsung & privat)" rows="4"></textarea>
+              <textarea id="replyInput" name="message" class="reply-textarea-modern"
+                placeholder="Tulis aja di sini apa yang ada di pikiranmu... (pesan ini terkirim langsung & privat)" rows="4" required></textarea>
             </div>
             <div class="reply-form-actions">
               <span class="reply-privacy-note">🔒 Terkirim rahasia & privat</span>
