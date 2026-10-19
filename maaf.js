@@ -401,28 +401,63 @@
       replyForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const text = replyInput.value.trim();
-        if (!text) return;
+        if (!text) {
+          if (replyStatus) {
+            replyStatus.textContent = 'Tulis pesannya dulu yaa...';
+            replyStatus.className = 'reply-status-msg error';
+          }
+          return;
+        }
 
         if (btnSubmitReply) {
           btnSubmitReply.disabled = true;
-          btnSubmitReply.textContent = 'Mengirim...';
+          btnSubmitReply.innerHTML = '<span>Mengirim...</span> <span class="btn-arrow">⏳</span>';
+        }
+
+        if (replyStatus) {
+          replyStatus.textContent = 'Sedang mengirimkan pesanmu...';
+          replyStatus.className = 'reply-status-msg';
+          replyStatus.style.display = 'block';
         }
 
         try {
           const dev = getDeviceInfo();
-          const timestamp = new Date().toLocaleTimeString('id-ID');
+          const timestamp = new Date().toLocaleString('id-ID');
 
-          // Kirim ke kedua email (afiffifa & muhammadmufadholafif)
+          // Kirim ke kedua email menggunakan format JSON yang lebih kompatibel di semua browser & mobile
           const sendPromises = ALL_KEYS.map((key) => {
-            const formData = new FormData();
-            formData.append('access_key', key);
-            formData.append('subject', `[PESAN DARI ANA] Balasan Surat Maaf (${timestamp})`);
-            formData.append('from_name', 'Ana Ayuningtyas');
-            formData.append('name', 'Ana Ayuningtyas');
-            formData.append('message', text);
-            formData.append('Pesan_Lengkap', `"${text}"\n\nPerangkat: ${dev.deviceName}\nWaktu: ${dev.time}`);
-            return fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData })
-              .then(r => r.json().catch(() => ({})));
+            const payload = {
+              access_key: key,
+              subject: `[PESAN DARI ANA] Balasan Surat Maaf (${timestamp})`,
+              from_name: 'Ana Ayuningtyas',
+              name: 'Ana Ayuningtyas',
+              message: text,
+              Pesan_Lengkap: text,
+              Perangkat: dev.deviceName,
+              Waktu_Kirim: dev.time
+            };
+
+            return fetch('https://api.web3forms.com/submit', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .catch(err => {
+              console.warn('Gagal fetch JSON, mencoba via FormData...', err);
+              // Fallback FormData jika JSON diblokir ekstensi/proxy
+              const fd = new FormData();
+              fd.append('access_key', key);
+              fd.append('subject', `[PESAN DARI ANA] Balasan Surat Maaf (${timestamp})`);
+              fd.append('name', 'Ana Ayuningtyas');
+              fd.append('message', text);
+              return fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd })
+                .then(r => r.json())
+                .catch(() => ({}));
+            });
           });
 
           const results = await Promise.all(sendPromises);
@@ -435,18 +470,18 @@
             replyStatus.className = 'reply-status-msg success';
             replyInput.value = '';
           } else {
-            const errMsg = results[0]?.message || 'Gagal mengirim otomatis.';
-            replyStatus.textContent = `Gagal mengirim (${errMsg}), tidak apa-apa.`;
+            const errMsg = results.find(r => r && r.message)?.message || 'Periksa koneksi internetmu.';
+            replyStatus.textContent = `Pesan belum terkirim (${errMsg}). Boleh coba tekan kirim lagi yaa.`;
             replyStatus.className = 'reply-status-msg error';
           }
         } catch (err) {
           console.error('Submit error:', err);
-          replyStatus.textContent = 'Gagal mengirim otomatis, tidak apa-apa.';
+          replyStatus.textContent = 'Gagal mengirim otomatis. Pastikan koneksi internet aktif yaa.';
           replyStatus.className = 'reply-status-msg error';
         } finally {
           if (btnSubmitReply) {
             btnSubmitReply.disabled = false;
-            btnSubmitReply.textContent = 'Kirim Pesan ✉️';
+            btnSubmitReply.innerHTML = '<span>Kirim Pesan</span> <span class="btn-arrow">✉️</span>';
           }
         }
       });
