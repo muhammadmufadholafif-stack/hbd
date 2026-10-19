@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Pesan untuk Ana 💌</title>
+  <meta name="description" content="Dibaca yaa cantikk." />
+  <meta name="theme-color" content="#0a0b14" />
+  <meta property="og:title" content="Pesan untuk Ana 💌" />
+  <meta property="og:description" content="Dibaca yaa cantikk." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/images/radiator-bg.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400;1,700&family=Outfit:wght@400;600;700&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="maaf.css" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+  <!-- Ambient Audio -->
+  <audio id="audio-bgm" src="assets/audio/maaf.mp3" preload="auto" loop></audio>
+
+  <!-- Interactive Starry Sky Canvas -->
+  <canvas id="skyCanvas" class="sky-canvas"></canvas>
+  <div class="desert-horizon-glow"></div>
+
+  <div class="page-wrapper">
+    <!-- Header Rapi & Bersih -->
+    <header class="page-header">
+      <div class="header-audio-bar">
+        <button id="btnAudioToggle" class="btn-audio-pill muted" aria-label="Toggle Musik"
+          title="Putar atau Heningkan Musik Latar">
+          <div class="music-waves">
+            <span></span><span></span><span></span>
+          </div>
+          <span id="audioText">Musik</span>
+        </button>
+      </div>
+      <h1 class="header-title">Ada Sesuatu nih Buat Kamu</h1>
+      <p class="header-subtitle">Sedikit tentang yang ingin kusampaikan</p>
+    </header>
+
+    <!-- STAGE 1: ENVELOPE -->
+    <section class="envelope-stage" id="envelopeStage" aria-label="Amplop Surat">
+      <div class="envelope-box" id="envelopeBox" title="Klik untuk membuka surat!">
+        <div class="envelope-flap-decor"></div>
+
+        <div class="wax-seal-wrapper" id="waxSeal">
+          <div class="wax-seal">
+            <span class="wax-seal-inner">💌</span>
+            <div class="wax-seal-pulse"></div>
+          </div>
+          <div class="wax-seal-text">✨ Buka Surat ✨</div>
+        </div>
+
+        <div class="envelope-address-wrap">
+          <div class="address-to-label">Teruntuk:</div>
+          <div class="address-name">Ana Ayuningtyas 🤍</div>
+        </div>
+      </div>
+      <p class="envelope-hint">👆 Ketuk amplopnya buat buka yaa</p>
+    </section>
+
+    <!-- STAGE 2: THE LETTER UNVEILED (Natural & Bersih) -->
+    <main class="letter-stage" id="letterStage" aria-label="Isi Surat Permintaan Maaf">
+      <article class="parchment-sheet">
+        <div class="letter-meta">
+          <h2 class="letter-salutation">Anaaa...</h2>
+        </div>
+
+        <div class="letter-body">
+          <p class="letter-text">
+            maaf yaa ganggu waktunyaaa....<br>
+            eee.. mungkin u ws males tentang iki, malah dirimu ws males karo aku yatta?? but baca yaa hhe..
+          </p>
+
+          <p class="letter-text">
+            aku minta maaf yaa... maaf lek perasaanku dadi beban ndek dirimu. mergo aku confess adwe malih canggung and akhire se asing iki, aku ngerti ko kemungkinan besar perasaanku ke dirimu gak kebales yaa mergo ke tololanku and di sisi lain kamu yo seneng wong liyo yekan ehh aku malah kakean polah padahal aku pngn confes pas lulus ae🫪
+          </p>
+
+          <p class="letter-text">
+            selanjut e aku ingin berterima kasih sebanyak banyak e ke dirimu, makasih ws dadi temenku sing buaikk and salah satu sing terbaik hh😭 but aku buat web iki nulis nginiki nggak bermaksud dirimu kudu maafne aku trus mbalik koyo ndisik, and ndak bermaksud ben awakmu buka blokiranku (kasi tau alasannya please😔).
+          </p>
+
+          <p class="letter-text">
+            aku nulis iki mergo aku sadar aku salah, mergo aku suasana ne kabeh maleh canggung, dirimu nda harus maafin saiki ko tp dimaafin yaa hhe, maaf juga lek kemarin kemarin aku rese banget...
+          </p>
+
+          <p class="letter-text">
+            eee... jujur aku ngerti amu ilfeel karo nginiki mbuh kesane aku nyari pembelaan po py, aku gak gantle po py sebenere banyak sing mau tak jelasin neng dirimu malah aku sir omong langsung but aku gak berani hhe liat dirimu e gemeter aku ahahahah😭 emm kalau mau bilango menurut sudut pandangmu hhe jujur ae aku kaget u sampe block waku hhe
+          </p>
+
+          <p class="letter-text">
+            maaf yaa dan terima kasih udah bacaa.. mungkin bakal ku update terus klo ada sing kurang/ belum kusampaikan hhe
+          </p>
+
+          <div class="letter-wish">
+            "May your life always be happy and healthy cantikk" 🌸
+          </div>
+        </div>
+
+        <!-- Signature -->
+        <div class="letter-signature-wrap">
+          <div class="sig-left">
+            <div class="sig-details">
+              <div class="sig-name">..</div>
+              <div class="sig-role">Semangat terus &amp; always happy</div>
+            </div>
+          </div>
+          <div class="sig-right">
+            <div class="sig-handwritten">Stay safe &amp; happy ✨</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- STAGE 3: INTERACTIVE RESPONSES (Desain Elegan & Hangat) -->
+      <section class="response-section" aria-label="Respon untuk Surat Ini">
+        <div class="response-card reply-premium-card">
+          <div class="reply-card-header">
+           
+            <h3 class="reply-title">Tanggapan dari sudut pandangmu?</h3>
+            <p class="reply-subtitle">
+              Gak perlu sungkan atau kepaksa yaa. Mau marah, ngoreksi, atau cerita kenapa kemarin nge-block, tulis aja sesukamu... Dikosongin pun gak masalah sama sekali kok. Ku harap kamu isi sesuai dengan isi hatimu yaa..
+            </p>
+          </div>
+
+          <form id="replyForm" class="reply-form-stylish">
+            <div class="textarea-glow-container">
+              <textarea id="replyInput" class="reply-textarea-modern"
+                placeholder="Tulis aja di sini apa yang ada di pikiranmu... (pesan ini terkirim langsung & privat)" rows="4"></textarea>
+            </div>
+            <div class="reply-form-actions">
+              <span class="reply-privacy-note">🔒 Terkirim rahasia & privat</span>
+              <button type="submit" class="btn-submit-premium" id="btnSubmitReply">
+                <span>Kirim Pesan</span>
+                <span class="btn-arrow">✉️</span>
+              </button>
+            </div>
+          </form>
+          <div id="replyStatus" class="reply-status-msg"></div>
+        </div>
+      </section>
+
+      <!-- Navigation Footer -->
+      <footer class="page-navigation-footer">
+        <a href="index.html" class="btn-back-home">
+          <span>🏠</span> Kembali ke Halaman Utama
+        </a>
+      </footer>
+    </main>
+  </div>
+
+  <!-- MODAL: UDAH DIBACA -->
+  <div id="readModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="readModalTitle">
+    <div class="modal-card">
+      <div class="modal-icon-bubble">🕊️</div>
+      <h3 class="modal-title" id="readModalTitle">Makasih Banyak yaa, Na</h3>
+      <p class="modal-text">
+        Makasih banyak udah nyempetin waktu buat baca pesan ini yaa. Yang paling penting kamu sehat-sehat terus, happy,
+        dan semua urusanmu lancar. Take care always! 🤍
+      </p>
+      <div class="modal-actions">
+        <button class="btn-modal-close" type="button">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="maaf.js"></script>
+</body>
+
+</html>

@@ -771,12 +771,142 @@
     }
   }
 
+  // --- INTERACTIVE RUNAWAY BUTTON: DIMAAFIN GAK? (MAX 10X KABUR) ---
+  function setupForgiveInteraction() {
+    const btnYes = document.getElementById('btnForgiveYes');
+    const btnNo = document.getElementById('btnForgiveNo');
+    const zone = document.getElementById('forgiveButtonsZone');
+    const successBanner = document.getElementById('forgiveSuccessBanner');
+    const rejectBanner = document.getElementById('forgiveRejectBanner');
+
+    if (!btnYes || !btnNo || !zone) return;
+
+    let dodgeCount = 0;
+    const maxDodges = 10;
+
+    const playfulPhrases = [
+      "Eits, gak kena! 😜",
+      "Gak bisa diklik wkwk 🏃",
+      "Masa nggak sih? 🥺",
+      "Pencet yang hijau ajaa 🤍",
+      "Masih gigih nolak nih? 😭",
+      "Tetep gak bisa 💨",
+      "Tombol ini licin! 😝",
+      "Dikit lagi nyerah kan? wkwk",
+      "Tinggal 1x lagi kabur! 🏃💨"
+    ];
+
+    function dodgeButton(e) {
+      if (dodgeCount >= maxDodges) {
+        // Sudah 10x, tombol tidak kabur lagi dan bisa diklik!
+        return;
+      }
+
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      dodgeCount++;
+
+      if (dodgeCount >= maxDodges) {
+        // Tepat di hitungan ke-10: Berhenti kabur!
+        btnNo.classList.add('can-be-clicked');
+        btnNo.innerHTML = `<span class="btn-icon">🥺</span> Yaudah deh boleh dipencet...`;
+        btnNo.style.position = 'relative';
+        btnNo.style.left = 'auto';
+        btnNo.style.top = 'auto';
+
+        // Lepas event listener menghindar agar bisa diklik
+        avoidanceEvents.forEach(evt => {
+          btnNo.removeEventListener(evt, dodgeButton);
+        });
+        return;
+      }
+
+      const zoneRect = zone.getBoundingClientRect();
+      const btnRect = btnNo.getBoundingClientRect();
+
+      if (zoneRect.height < 150) {
+        zone.style.minHeight = '150px';
+      }
+
+      const maxX = Math.max(10, zoneRect.width - btnRect.width - 20);
+      const maxY = Math.max(10, zoneRect.height - btnRect.height - 20);
+
+      const randomX = Math.floor(Math.random() * maxX);
+      const randomY = Math.floor(Math.random() * maxY);
+
+      btnNo.style.position = 'absolute';
+      btnNo.style.left = `${Math.max(10, randomX)}px`;
+      btnNo.style.top = `${Math.max(10, randomY)}px`;
+
+      const phrase = playfulPhrases[(dodgeCount - 1) % playfulPhrases.length];
+      btnNo.innerHTML = `<span class="btn-icon">😜</span> ${phrase} (${dodgeCount}/${maxDodges})`;
+    }
+
+    btnNo.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (dodgeCount < maxDodges) {
+        dodgeButton();
+      } else {
+        // Klik setelah 10x berhasil
+        zone.style.display = 'none';
+        if (rejectBanner) {
+          rejectBanner.style.display = 'block';
+          rejectBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        const accessKey = '87674c13-3714-4adc-8da5-bb7f2ec17e73';
+        try {
+          fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              access_key: accessKey,
+              subject: '[HBD ANA] Ana memilih Nggak setelah 10x ngejar tombol!',
+              from_name: 'Website HBD Ana',
+              message: `Ana akhirnya menekan 'Nggak' setelah tombol kabur 10 kali.\nWaktu: ${new Date().toLocaleString('id-ID')}`
+            })
+          }).catch(() => {});
+        } catch (err) {}
+      }
+    });
+
+    // When Yes is clicked
+    btnYes.addEventListener('click', () => {
+      fireGrandConfetti();
+      zone.style.display = 'none';
+      if (successBanner) {
+        successBanner.style.display = 'block';
+        successBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      const accessKey = '87674c13-3714-4adc-8da5-bb7f2ec17e73';
+      try {
+        fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            access_key: accessKey,
+            subject: '[HBD ANA] Ana menekan tombol: Iya dimaafin! 🤍',
+            from_name: 'Website HBD Ana',
+            message: `Ana memilih 'Iya, dimaafin!' di Scene 5 Garis Finish.\nWaktu: ${new Date().toLocaleString('id-ID')}`
+          })
+        }).catch(() => {});
+      } catch (err) {}
+    });
+  }
+
   // --- INITIALIZATION ---
   document.addEventListener('DOMContentLoaded', () => {
     carousel.init();
     setupMaterEasterEgg();
     setupShareButton();
     setupNavigationButtons();
+    setupForgiveInteraction();
     goToScene(0);
     sendVisitorNotification();
 
