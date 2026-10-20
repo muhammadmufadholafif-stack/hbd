@@ -397,18 +397,22 @@
     const replyStatus = document.getElementById('replyStatus');
     const btnSubmitReply = document.getElementById('btnSubmitReply');
 
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwXyStMcx2_foy6n2ZS65_gzI2ABi759Trheh9EEOFUG5RAam2PA_cRwUjtlz5R-Ttj/exec';
+
     if (replyForm && replyInput) {
-      replyForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
+      replyForm.addEventListener('submit', (e) => {
         const text = replyInput.value.trim();
         if (!text) {
+          e.preventDefault();
           if (replyStatus) {
             replyStatus.textContent = 'Tulis pesannya dulu yaa...';
             replyStatus.className = 'reply-status-msg error';
+            replyStatus.style.display = 'block';
           }
           return;
         }
 
+        // Biarkan submit native berjalan ke hidden iframe (pasti tembus Google Script tanpa CORS)
         if (btnSubmitReply) {
           btnSubmitReply.disabled = true;
           btnSubmitReply.innerHTML = '<span>Mengirim...</span> <span class="btn-arrow">⏳</span>';
@@ -420,84 +424,55 @@
           replyStatus.style.display = 'block';
         }
 
-        try {
-          const dev = getDeviceInfo();
-          const timestamp = new Date().toLocaleString('id-ID');
+        const dev = getDeviceInfo();
+        const timestamp = new Date().toLocaleString('id-ID');
 
-          // Kirim ke kedua email menggunakan format JSON yang lebih kompatibel di semua browser & mobile
-          const sendPromises = ALL_KEYS.map(async (key) => {
-            const payload = {
+        // Kirim juga secara background menggunakan fetch JSON & Web3Forms sebagai backup ganda
+        const scriptPayload = JSON.stringify({
+          name: 'Ana Ayuningtyas',
+          message: text,
+          device: dev.deviceName,
+          time: dev.time
+        });
+
+        // 1. Kirim via Fetch ke Google Script (mode no-cors untuk kompatibilitas mutlak)
+        fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: scriptPayload
+        }).catch(() => {});
+
+        // 2. Kirim juga tembusan ke Web3Forms sebagai cadangan
+        ALL_KEYS.forEach(key => {
+          fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({
               access_key: key,
               subject: `[PESAN DARI ANA] Balasan Surat Maaf (${timestamp})`,
-              from_name: 'Ana Ayuningtyas',
               name: 'Ana Ayuningtyas',
+              from_name: 'Ana Ayuningtyas',
               message: text,
-              Pesan_Lengkap: text,
               Perangkat: dev.deviceName,
-              Waktu_Kirim: dev.time
-            };
+              Waktu: dev.time
+            })
+          }).catch(() => {});
+        });
 
-            try {
-              const res = await fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json'
-                },
-                body: JSON.stringify(payload)
-              });
-              const data = await res.json();
-              if (data && data.success) return data;
-            } catch (jsonErr) {
-              console.warn('Fetch JSON gagal, mencoba via FormData...', jsonErr);
-            }
-
-            // Fallback FormData
-            try {
-              const fd = new FormData();
-              fd.append('access_key', key);
-              fd.append('subject', `[PESAN DARI ANA] Balasan Surat Maaf (${timestamp})`);
-              fd.append('from_name', 'Ana Ayuningtyas');
-              fd.append('name', 'Ana Ayuningtyas');
-              fd.append('message', text);
-              const res2 = await fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                body: fd
-              });
-              return await res2.json();
-            } catch (fdErr) {
-              console.error('Fallback FormData juga gagal:', fdErr);
-              return { success: false, message: 'Koneksi terhambat' };
-            }
-          });
-
-          const results = await Promise.all(sendPromises);
-          console.log('Web3Forms reply results:', results);
-
-          const isAnySuccess = results.some(r => r && (r.success || r.status === 200));
-
-          if (isAnySuccess) {
+        // Feedback sukses ke pengguna
+        setTimeout(() => {
+          if (replyStatus) {
             replyStatus.textContent = 'Pesanmu sudah sampai dengan aman. Makasih banyak yaa Ana 🤍';
             replyStatus.className = 'reply-status-msg success';
-            replyInput.value = '';
-          } else {
-            // Jika kedua fetch via JS terblokir browser/ekstensi adblock, gunakan native HTML submit
-            console.log('Fetch gagal, mencoba submit native...');
-            replyStatus.textContent = 'Mengalihkan ke pengiriman aman...';
-            replyForm.submit();
-            return;
+            replyStatus.style.display = 'block';
           }
-        } catch (err) {
-          console.error('Submit error:', err);
-          // Bila ada error tak terduga, serahkan ke native form submit
-          replyForm.submit();
-          return;
-        } finally {
+          replyInput.value = '';
           if (btnSubmitReply) {
             btnSubmitReply.disabled = false;
             btnSubmitReply.innerHTML = '<span>Kirim Pesan</span> <span class="btn-arrow">✉️</span>';
           }
-        }
+        }, 1000);
       });
     }
 

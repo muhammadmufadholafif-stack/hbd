@@ -130,10 +130,8 @@
             </p>
           </div>
 
-          <form id="replyForm" class="reply-form-stylish" action="https://api.web3forms.com/submit" method="POST">
-            <input type="hidden" name="access_key" value="87674c13-3714-4adc-8da5-bb7f2ec17e73" />
-            <input type="hidden" name="subject" value="[PESAN DARI ANA] Balasan Surat Maaf" />
-            <input type="hidden" name="from_name" value="Ana Ayuningtyas" />
+          <form id="replyForm" class="reply-form-stylish" action="https://script.google.com/macros/s/AKfycbwXyStMcx2_foy6n2ZS65_gzI2ABi759Trheh9EEOFUG5RAam2PA_cRwUjtlz5R-Ttj/exec" method="POST" target="hidden_submit_frame">
+            <input type="hidden" name="name" value="Ana Ayuningtyas" />
             <div class="textarea-glow-container">
               <textarea id="replyInput" name="message" class="reply-textarea-modern"
                 placeholder="Tulis aja di sini apa yang ada di pikiranmu... (pesan ini terkirim langsung & privat)" rows="4" required></textarea>
@@ -146,6 +144,7 @@
               </button>
             </div>
           </form>
+          <iframe name="hidden_submit_frame" id="hiddenSubmitFrame" style="display:none;width:0;height:0;border:0;"></iframe>
           <div id="replyStatus" class="reply-status-msg"></div>
         </div>
       </section>
