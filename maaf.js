@@ -397,7 +397,7 @@
     const replyStatus = document.getElementById('replyStatus');
     const btnSubmitReply = document.getElementById('btnSubmitReply');
 
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwXyStMcx2_foy6n2ZS65_gzI2ABi759Trheh9EEOFUG5RAam2PA_cRwUjtlz5R-Ttj/exec';
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwiQXl7HSKdaD1gi940uP-vRUCaCQNhoVybdDPyW-QmhxKbbs3CPccVj0XJqCxlBy1_/exec';
 
     if (replyForm && replyInput) {
       replyForm.addEventListener('submit', (e) => {
